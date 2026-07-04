@@ -10,7 +10,10 @@
       "Bash(open /private/tmp/claude-501/-Users-patrick-Desktop-bondproof-files/c5bbb14c-86c3-4a49-88b7-524d2f61aff3/scratchpad/node-v22.23.1.pkg)",
       "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --use-npm --disable-git)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(git config *)"
     ]
   }
 }
