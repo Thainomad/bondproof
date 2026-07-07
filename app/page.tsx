@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { signOut } from './login/sign-out'
+import GenerateReportButton from './reports/entry/GenerateReportButton'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -38,6 +39,19 @@ export default async function Home() {
     entrySession = data
   }
 
+  let latestEntryReportId: string | null = null
+  if (tenancy) {
+    const { data } = await supabase
+      .from('documents')
+      .select('id')
+      .eq('tenancy_id', tenancy.id)
+      .eq('type', 'entry_report')
+      .order('generated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    latestEntryReportId = data?.id ?? null
+  }
+
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
@@ -66,9 +80,15 @@ export default async function Home() {
           </p>
           <p className="text-sm text-gray-600">Status: {tenancy.status}</p>
           {entrySession?.completed_at ? (
-            <p className="text-sm font-medium text-green-700">
-              Entry capture complete
-            </p>
+            <>
+              <p className="text-sm font-medium text-green-700">
+                Entry capture complete
+              </p>
+              <GenerateReportButton
+                tenancyId={tenancy.id}
+                existingDocumentId={latestEntryReportId}
+              />
+            </>
           ) : (
             <Link
               href="/capture/entry"
