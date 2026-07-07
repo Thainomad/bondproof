@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { signOut } from './login/sign-out'
-import GenerateReportButton from './reports/entry/GenerateReportButton'
+import GenerateReportButton from './reports/GenerateReportButton'
+import { generateEntryReport } from './reports/entry/actions'
+import { generateExitReport } from './reports/exit/actions'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -40,16 +42,38 @@ export default async function Home() {
   }
 
   let latestEntryReportId: string | null = null
+  let exitSession: { id: string; completed_at: string | null } | null = null
+  let latestExitReportId: string | null = null
   if (tenancy) {
-    const { data } = await supabase
-      .from('documents')
-      .select('id')
-      .eq('tenancy_id', tenancy.id)
-      .eq('type', 'entry_report')
-      .order('generated_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
-    latestEntryReportId = data?.id ?? null
+    const [entryReport, exit, exitReport] = await Promise.all([
+      supabase
+        .from('documents')
+        .select('id')
+        .eq('tenancy_id', tenancy.id)
+        .eq('type', 'entry_report')
+        .order('generated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      supabase
+        .from('capture_sessions')
+        .select('id, completed_at')
+        .eq('tenancy_id', tenancy.id)
+        .eq('type', 'exit')
+        .order('started_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      supabase
+        .from('documents')
+        .select('id')
+        .eq('tenancy_id', tenancy.id)
+        .eq('type', 'exit_report')
+        .order('generated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ])
+    latestEntryReportId = entryReport.data?.id ?? null
+    exitSession = exit.data
+    latestExitReportId = exitReport.data?.id ?? null
   }
 
   return (
@@ -87,7 +111,45 @@ export default async function Home() {
               <GenerateReportButton
                 tenancyId={tenancy.id}
                 existingDocumentId={latestEntryReportId}
+                generateAction={generateEntryReport}
+                label="entry report"
               />
+
+              <hr className="my-1 border-gray-200" />
+
+              <Link
+                href="/capture/exit/cleaning"
+                className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
+              >
+                Pre-handover cleaning checklist
+              </Link>
+
+              {exitSession?.completed_at ? (
+                <>
+                  <p className="text-sm font-medium text-green-700">
+                    Exit capture complete
+                  </p>
+                  <Link
+                    href="/compare"
+                    className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
+                  >
+                    View entry vs exit comparison
+                  </Link>
+                  <GenerateReportButton
+                    tenancyId={tenancy.id}
+                    existingDocumentId={latestExitReportId}
+                    generateAction={generateExitReport}
+                    label="exit report"
+                  />
+                </>
+              ) : (
+                <Link
+                  href="/capture/exit"
+                  className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
+                >
+                  {exitSession ? 'Resume exit capture' : "Moving out? Start exit capture"}
+                </Link>
+              )}
             </>
           ) : (
             <Link

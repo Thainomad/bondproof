@@ -61,10 +61,12 @@ export function renderEntryReportHtml({
   tenancy,
   generatedAt,
   items,
+  title = 'Entry Condition Report',
 }: {
   tenancy: ReportTenancy
   generatedAt: Date
   items: ReportEvidenceItem[]
+  title?: string
 }): string {
   const grouped = new Map<string, ReportEvidenceItem[]>()
   for (const item of items) {
@@ -175,7 +177,7 @@ export function renderEntryReportHtml({
 </head>
 <body>
   <div class="cover">
-    <h1>Entry Condition Report</h1>
+    <h1>${title}</h1>
     <p class="subtitle">Generated ${formatDate(generatedAt.toISOString())} &middot; BondProof</p>
     <dl>
       <dt>Property</dt><dd>${escapeHtml(tenancy.address)}</dd>

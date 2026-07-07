@@ -33,10 +33,12 @@ export default function CaptureFlow({
   sessionId,
   items,
   existingEvidence,
+  sessionType = 'entry',
 }: {
   sessionId: string
   items: ChecklistItem[]
   existingEvidence: ExistingEvidence[]
+  sessionType?: 'entry' | 'exit'
 }) {
   const router = useRouter()
   const evidenceByChecklistId = useMemo(() => {
@@ -146,9 +148,13 @@ export default function CaptureFlow({
   if (isDone) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="text-2xl font-semibold">Entry capture complete</h1>
+        <h1 className="text-2xl font-semibold">
+          {sessionType === 'entry' ? 'Entry capture complete' : 'Exit capture complete'}
+        </h1>
         <p className="text-gray-600">
-          Nice work — your move-in condition is documented.
+          {sessionType === 'entry'
+            ? 'Nice work — your move-in condition is documented.'
+            : 'Nice work — your move-out condition is documented.'}
         </p>
         <button
           onClick={() => router.push('/')}

@@ -1,0 +1,50 @@
+[
+  {
+    "category": "Walls",
+    "tips": [
+      "Remove all wall hooks, nails, and adhesive strips.",
+      "Fill and touch up nail/screw holes if you have matching paint.",
+      "Wipe down marks and scuffs — check behind doors and furniture."
+    ]
+  },
+  {
+    "category": "Carpets & floors",
+    "tips": [
+      "Vacuum thoroughly, including edges and under furniture.",
+      "Steam clean carpets — keep the receipt as evidence if your lease requires it.",
+      "Mop hard floors and check for scuffs near doorways."
+    ]
+  },
+  {
+    "category": "Blinds & curtains",
+    "tips": [
+      "Dust and wipe down blinds slat by slat.",
+      "Check for and repair any broken cords or missing slats.",
+      "Launder curtains if machine-washable, or spot-clean stains."
+    ]
+  },
+  {
+    "category": "Oven",
+    "tips": [
+      "Clean the oven interior, racks, and door glass — a very common exit claim.",
+      "Clean the stovetop and rangehood filter.",
+      "Wipe down splashbacks near the cooktop."
+    ]
+  },
+  {
+    "category": "Grout & sealant",
+    "tips": [
+      "Scrub grout lines in the bathroom and kitchen to remove mould/mildew.",
+      "Re-seal or clean silicone around the shower/bath if discoloured.",
+      "Check the exhaust fan is dust-free and working."
+    ]
+  },
+  {
+    "category": "Garden & lawn",
+    "tips": [
+      "Mow the lawn and edge garden beds.",
+      "Remove weeds and dead plants.",
+      "Sweep paths, driveway, and clear gutters if accessible."
+    ]
+  }
+]

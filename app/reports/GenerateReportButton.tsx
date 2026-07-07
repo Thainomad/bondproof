@@ -1,14 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { generateEntryReport } from './actions'
 
 export default function GenerateReportButton({
   tenancyId,
   existingDocumentId,
+  generateAction,
+  label,
 }: {
   tenancyId: string
   existingDocumentId: string | null
+  generateAction: (tenancyId: string) => Promise<{ documentId?: string; error?: string }>
+  label: string
 }) {
   const [documentId, setDocumentId] = useState(existingDocumentId)
   const [generating, setGenerating] = useState(false)
@@ -17,7 +20,7 @@ export default function GenerateReportButton({
   async function handleGenerate() {
     setGenerating(true)
     setError('')
-    const result = await generateEntryReport(tenancyId)
+    const result = await generateAction(tenancyId)
     if (result.error) {
       setError(result.error)
     } else if (result.documentId) {
@@ -33,7 +36,7 @@ export default function GenerateReportButton({
           href={`/api/documents/${documentId}`}
           className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
         >
-          Download entry report PDF
+          Download {label} PDF
         </a>
       )}
       <button
@@ -42,7 +45,7 @@ export default function GenerateReportButton({
         disabled={generating}
         className="rounded-md bg-black px-4 py-3 text-base font-medium text-white disabled:opacity-50"
       >
-        {generating ? 'Generating...' : documentId ? 'Regenerate report' : 'Generate entry report'}
+        {generating ? 'Generating...' : documentId ? 'Regenerate report' : `Generate ${label}`}
       </button>
       {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
