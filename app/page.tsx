@@ -25,6 +25,19 @@ export default async function Home() {
 
   const tenancy = await getCurrentTenancy()
 
+  let entrySession: { id: string; completed_at: string | null } | null = null
+  if (tenancy) {
+    const { data } = await supabase
+      .from('capture_sessions')
+      .select('id, completed_at')
+      .eq('tenancy_id', tenancy.id)
+      .eq('type', 'entry')
+      .order('started_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    entrySession = data
+  }
+
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
@@ -52,6 +65,18 @@ export default async function Home() {
             Bond: ${((tenancy.bond_amount_cents ?? 0) / 100).toFixed(2)}
           </p>
           <p className="text-sm text-gray-600">Status: {tenancy.status}</p>
+          {entrySession?.completed_at ? (
+            <p className="text-sm font-medium text-green-700">
+              Entry capture complete
+            </p>
+          ) : (
+            <Link
+              href="/capture/entry"
+              className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
+            >
+              {entrySession ? 'Resume entry capture' : 'Start entry capture'}
+            </Link>
+          )}
         </div>
       ) : (
         <div className="flex flex-col gap-3 rounded-lg border border-gray-200 p-4 text-center">
