@@ -141,6 +141,15 @@ export default async function Home() {
                     generateAction={generateExitReport}
                     label="exit report"
                   />
+
+                  <hr className="my-1 border-gray-200" />
+
+                  <Link
+                    href="/dispute"
+                    className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
+                  >
+                    Agent claiming a deduction? Start a dispute
+                  </Link>
                 </>
               ) : (
                 <Link
