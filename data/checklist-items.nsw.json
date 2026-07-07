@@ -1,0 +1,290 @@
+[
+  {
+    "slug": "general.walls",
+    "state": "NSW",
+    "room": "general",
+    "label": "Walls",
+    "guidance": "Check for marks, holes, scuffs, hook damage, or scratches on all walls.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "general.ceiling",
+    "state": "NSW",
+    "room": "general",
+    "label": "Ceiling",
+    "guidance": "Check for water stains, cracks, mould, or damage.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "general.floor_carpet",
+    "state": "NSW",
+    "room": "general",
+    "label": "Floor / carpet",
+    "guidance": "Photograph the full floor plus close-ups of any stains, edges, or wear. Carpet condition is one of the most common bond dispute categories.",
+    "high_claim_flag": true,
+    "min_photos": 3
+  },
+  {
+    "slug": "general.windows_screens_tracks",
+    "state": "NSW",
+    "room": "general",
+    "label": "Windows, screens & tracks",
+    "guidance": "Check windows, flyscreens, and tracks for damage or built-up dirt/mould.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "general.blinds_curtains",
+    "state": "NSW",
+    "room": "general",
+    "label": "Blinds / curtains",
+    "guidance": "Check for missing slats, tears, stains, or broken mechanisms.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "general.doors",
+    "state": "NSW",
+    "room": "general",
+    "label": "Doors",
+    "guidance": "Check doors and frames for damage, marks, or misalignment.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "general.light_fittings",
+    "state": "NSW",
+    "room": "general",
+    "label": "Light fittings",
+    "guidance": "Confirm fittings are undamaged and globes work.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "general.power_points",
+    "state": "NSW",
+    "room": "general",
+    "label": "Power points & switches",
+    "guidance": "Check power points and switches are undamaged and working.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "general.smoke_alarm",
+    "state": "NSW",
+    "room": "general",
+    "label": "Smoke alarm",
+    "guidance": "Confirm a smoke alarm is present and note its visible condition.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.oven_interior",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Oven interior",
+    "guidance": "Photograph the inside of the oven, including racks and door glass. Oven cleanliness is a very common exit claim.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "kitchen.stovetop",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Stovetop",
+    "guidance": "Check for stains, scratches, or damage to elements/burners.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.rangehood_filter",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Rangehood filter",
+    "guidance": "Check for grease build-up on the filter.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.cupboards_interior",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Inside cupboards",
+    "guidance": "Check inside cupboards and drawers for damage, mess, or pests.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.sink_taps",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Sink & taps",
+    "guidance": "Check for leaks, chips, or limescale build-up.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.dishwasher",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Dishwasher",
+    "guidance": "If included, check the interior, seals, and filter.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "kitchen.benchtops",
+    "state": "NSW",
+    "room": "kitchen",
+    "label": "Benchtops",
+    "guidance": "Check for scratches, burns, or stains.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bathroom.grout_sealant",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Grout & sealant",
+    "guidance": "Photograph grout and sealant condition around tiles and shower — mould/black spot disputes are common.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "bathroom.shower_screen",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Shower screen",
+    "guidance": "Check for cracks, soap scum build-up, or damaged seals.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bathroom.drains",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Drains",
+    "guidance": "Check for blockages or slow drainage.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bathroom.exhaust_fan",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Exhaust fan",
+    "guidance": "Confirm it runs and check for dust build-up.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bathroom.toilet",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Toilet",
+    "guidance": "Check for cracks, staining, or cistern issues.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bathroom.vanity",
+    "state": "NSW",
+    "room": "bathroom",
+    "label": "Vanity",
+    "guidance": "Check vanity and cabinet for water damage or marks.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bedroom.wardrobe_interior_tracks",
+    "state": "NSW",
+    "room": "bedroom",
+    "label": "Wardrobe interior & tracks",
+    "guidance": "Check interior and sliding door tracks for damage.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "bedroom.carpet_under_window",
+    "state": "NSW",
+    "room": "bedroom",
+    "label": "Carpet under window",
+    "guidance": "Photograph carpet under the window as a sun-fade baseline — useful evidence against later fade/discolouration claims.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "laundry.taps",
+    "state": "NSW",
+    "room": "laundry",
+    "label": "Laundry taps",
+    "guidance": "Check for leaks or damage.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "laundry.tub",
+    "state": "NSW",
+    "room": "laundry",
+    "label": "Laundry tub",
+    "guidance": "Check for cracks, stains, or blockages.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "laundry.dryer",
+    "state": "NSW",
+    "room": "laundry",
+    "label": "Dryer",
+    "guidance": "If included, check condition and lint filter.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "exterior.garden_lawn",
+    "state": "NSW",
+    "room": "exterior",
+    "label": "Garden / lawn",
+    "guidance": "Photograph overall garden/lawn state — a very common exit claim category.",
+    "high_claim_flag": true,
+    "min_photos": 2
+  },
+  {
+    "slug": "exterior.balcony",
+    "state": "NSW",
+    "room": "exterior",
+    "label": "Balcony / deck",
+    "guidance": "Check condition, railings, and drainage.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "exterior.garage",
+    "state": "NSW",
+    "room": "exterior",
+    "label": "Garage",
+    "guidance": "Check door operation and floor condition (oil stains etc).",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "exterior.letterbox",
+    "state": "NSW",
+    "room": "exterior",
+    "label": "Letterbox",
+    "guidance": "Check condition and lock.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  },
+  {
+    "slug": "exterior.bins",
+    "state": "NSW",
+    "room": "exterior",
+    "label": "Bins present",
+    "guidance": "Confirm bins are present and in good condition.",
+    "high_claim_flag": false,
+    "min_photos": 1
+  }
+]
