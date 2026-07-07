@@ -1,0 +1,95 @@
+[
+  {
+    "key": "condition_report_return_days",
+    "state": "NSW",
+    "version": 1,
+    "effective_from": "2026-07-08",
+    "citation": "https://www.nsw.gov.au/housing-and-construction/rules/rental-property-condition-reports",
+    "value_json": {
+      "days": 7,
+      "description": "A tenant must give a completed copy of the entry condition report back to the landlord/agent within 7 days of being given possession of the property."
+    }
+  },
+  {
+    "key": "bond_claim_dispute_window_days",
+    "state": "NSW",
+    "version": 1,
+    "effective_from": "2026-07-08",
+    "citation": "https://www.nsw.gov.au/housing-and-construction/renting-a-place-to-live/residential-rental-bonds/dealing-bond-disputes-for-tenants",
+    "value_json": {
+      "days": 14,
+      "description": "When a bond claim is lodged via Rental Bonds Online, NSW Fair Trading issues a Notice of Claim by email/SMS. The other party has 14 days to accept or dispute it. If undisputed, Fair Trading pays the claim after 14 days."
+    }
+  },
+  {
+    "key": "ncat_application_window_days",
+    "state": "NSW",
+    "version": 1,
+    "effective_from": "2026-07-08",
+    "citation": "https://www.nsw.gov.au/housing-and-construction/renting-a-place-to-live/residential-rental-bonds/dealing-bond-disputes-for-tenants",
+    "value_json": {
+      "days": 14,
+      "description": "To dispute a bond claim, an application to NCAT must be lodged within the same 14-day notice period. The bond is not released until the dispute is resolved or an NCAT order is made."
+    }
+  },
+  {
+    "key": "ncat_application_fee",
+    "state": "NSW",
+    "version": 1,
+    "effective_from": "2026-07-01",
+    "citation": "https://ncat.nsw.gov.au/forms-and-fees/fees-at-ncat.html",
+    "value_json": {
+      "standard_cents": 6400,
+      "corporation_cents": 12800,
+      "concession_cents": 1600,
+      "description": "NCAT Consumer and Commercial Division residential proceedings fee, effective 1 July 2026. Concession rate (25% of standard) applies to eligible pensioners, legal aid recipients, or those assisted by a community legal centre."
+    }
+  },
+  {
+    "key": "fair_wear_and_tear_guidance",
+    "state": "NSW",
+    "version": 1,
+    "effective_from": "2026-07-08",
+    "citation": "https://www.nsw.gov.au/housing-and-construction/rules/fair-wear-and-tear-versus-damage-rental-properties",
+    "value_json": {
+      "principle": "A tenant is never liable for fair wear and tear — the normal deterioration of a property from ordinary use, exposure to the elements, and time. A tenant is responsible for negligent, irresponsible, or intentional damage.",
+      "categories": [
+        {
+          "category": "Curtains",
+          "wear_and_tear": "Faded curtains or frayed cords",
+          "damage": "Missing or torn curtains"
+        },
+        {
+          "category": "Carpet",
+          "wear_and_tear": "Furniture indentations and traffic marks; sun-fading",
+          "damage": "Stains or burn marks on the carpet"
+        },
+        {
+          "category": "Floors",
+          "wear_and_tear": "Scuffed up wooden floors",
+          "damage": "Badly scratched or gouged wooden floors"
+        },
+        {
+          "category": "Paint",
+          "wear_and_tear": "Faded, chipped, or cracked paint; paint worn off near light switch",
+          "damage": "Unapproved, poor quality paint job; damage from removing posters stuck with blu-tack or tape"
+        },
+        {
+          "category": "Kitchen",
+          "wear_and_tear": "Worn kitchen benchtop",
+          "damage": "Burns or cuts in benchtop"
+        },
+        {
+          "category": "Doors/Windows",
+          "wear_and_tear": "Loose hinges or handles; worn sliding tracks",
+          "damage": "Broken glass"
+        },
+        {
+          "category": "Water stains",
+          "wear_and_tear": "Stains from a leaking roof or bad plumbing (not tenant-caused)",
+          "damage": "Stains from an overflowing bath or indoor pot plants"
+        }
+      ]
+    }
+  }
+]
