@@ -1,7 +1,7 @@
-import { chromium } from 'playwright'
 import { randomUUID } from 'node:crypto'
 import { createClient } from '@/lib/supabase/server'
 import { renderEntryReportHtml, type ReportEvidenceItem } from '@/lib/reports/entry-report-html'
+import { launchBrowser } from '@/lib/reports/get-browser'
 
 const ROOM_ORDER = ['general', 'bedroom', 'bathroom', 'kitchen', 'laundry', 'exterior']
 
@@ -98,7 +98,7 @@ export async function generateConditionReport({
 
   const html = renderEntryReportHtml({ tenancy, generatedAt: new Date(), items, title })
 
-  const browser = await chromium.launch()
+  const browser = await launchBrowser()
   let pdfBuffer: Buffer
   try {
     const page = await browser.newPage()

@@ -1,11 +1,11 @@
 'use server'
 
-import { chromium } from 'playwright'
 import { randomUUID } from 'node:crypto'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentDispute } from '@/lib/dispute'
 import { getComparisonRows } from '@/lib/comparison'
 import { renderEvidencePackHtml, type ChronologyEvent } from '@/lib/reports/evidence-pack-html'
+import { launchBrowser } from '@/lib/reports/get-browser'
 
 export async function generateEvidencePack(tenancyId: string) {
   const supabase = await createClient()
@@ -60,7 +60,7 @@ export async function generateEvidencePack(tenancyId: string) {
     chronology,
   })
 
-  const browser = await chromium.launch()
+  const browser = await launchBrowser()
   let pdfBuffer: Buffer
   try {
     const page = await browser.newPage()

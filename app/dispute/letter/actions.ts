@@ -1,6 +1,5 @@
 'use server'
 
-import { chromium } from 'playwright'
 import { randomUUID } from 'node:crypto'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentDispute } from '@/lib/dispute'
@@ -8,6 +7,7 @@ import { getComparisonRows } from '@/lib/comparison'
 import { getRule } from '@/lib/rules'
 import { generateDisputeLetter } from '@/lib/reports/generate-letter'
 import { renderLetterHtml } from '@/lib/reports/letter-html'
+import { launchBrowser } from '@/lib/reports/get-browser'
 
 export async function generateResponseLetter(tenancyId: string) {
   const supabase = await createClient()
@@ -54,7 +54,7 @@ export async function generateResponseLetter(tenancyId: string) {
 
   const html = renderLetterHtml({ letterText, generatedAt: new Date() })
 
-  const browser = await chromium.launch()
+  const browser = await launchBrowser()
   let pdfBuffer: Buffer
   try {
     const page = await browser.newPage()
