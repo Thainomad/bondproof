@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createConditionReportDeadline } from '@/lib/deadlines'
 
 export async function createTenancy(formData: FormData) {
   const supabase = await createClient()
@@ -30,23 +31,29 @@ export async function createTenancy(formData: FormData) {
     return { error: 'Enter a valid bond amount.' }
   }
 
-  const { error } = await supabase.from('tenancies').insert({
-    user_id: user.id,
-    address,
-    lease_start: leaseStart,
-    lease_end: leaseEnd || null,
-    agent_name: agentName || null,
-    agent_email: agentEmail || null,
-    bond_amount_cents: bondAmountCents,
-    rbo_number: rboNumber || null,
-  })
+  const { data: tenancy, error } = await supabase
+    .from('tenancies')
+    .insert({
+      user_id: user.id,
+      address,
+      lease_start: leaseStart,
+      lease_end: leaseEnd || null,
+      agent_name: agentName || null,
+      agent_email: agentEmail || null,
+      bond_amount_cents: bondAmountCents,
+      rbo_number: rboNumber || null,
+    })
+    .select('id')
+    .single()
 
-  if (error) {
-    if (error.code === '23505') {
+  if (error || !tenancy) {
+    if (error?.code === '23505') {
       return { error: 'You already have an open tenancy.' }
     }
-    return { error: error.message }
+    return { error: error?.message ?? 'Failed to create tenancy' }
   }
+
+  await createConditionReportDeadline(tenancy.id, leaseStart)
 
   redirect('/')
 }

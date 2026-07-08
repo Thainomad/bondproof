@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createDisputeWindowDeadline } from '@/lib/deadlines'
 
 export async function openDispute(tenancyId: string) {
   const supabase = await createClient()
@@ -22,6 +23,8 @@ export async function openDispute(tenancyId: string) {
     .single()
 
   if (error || !data) return { error: error?.message ?? 'Failed to open dispute' }
+
+  await createDisputeWindowDeadline(tenancyId)
 
   revalidatePath('/dispute')
   return { disputeId: data.id }
