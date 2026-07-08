@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { getCurrentDispute } from '@/lib/dispute'
+import { hasPaidForDisputeKit } from '@/lib/payments'
+import PaywallScreen from '@/app/checkout/PaywallScreen'
 import StartDisputeButton from './StartDisputeButton'
 import LineItemForm from './LineItemForm'
 import LineItemRow from './LineItemRow'
@@ -9,6 +11,10 @@ import LineItemRow from './LineItemRow'
 export default async function DisputePage() {
   const tenancy = await getCurrentTenancy()
   if (!tenancy) redirect('/')
+
+  if (!(await hasPaidForDisputeKit(tenancy.id))) {
+    return <PaywallScreen tenancyId={tenancy.id} />
+  }
 
   const current = await getCurrentDispute(tenancy.id)
 

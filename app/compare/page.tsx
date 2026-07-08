@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { getComparisonRows } from '@/lib/comparison'
+import { hasPaidForDisputeKit } from '@/lib/payments'
+import PaywallScreen from '@/app/checkout/PaywallScreen'
 
 const ROOM_LABELS: Record<string, string> = {
   general: 'Every room',
@@ -20,6 +22,10 @@ const RATING_COLORS: Record<string, string> = {
 export default async function ComparePage() {
   const tenancy = await getCurrentTenancy()
   if (!tenancy) redirect('/')
+
+  if (!(await hasPaidForDisputeKit(tenancy.id))) {
+    return <PaywallScreen tenancyId={tenancy.id} />
+  }
 
   const rows = await getComparisonRows(tenancy.id)
 

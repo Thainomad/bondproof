@@ -1,11 +1,17 @@
 import { redirect } from 'next/navigation'
 import { getCurrentTenancy } from '@/lib/tenancy'
+import { hasPaidForDisputeKit } from '@/lib/payments'
+import PaywallScreen from '@/app/checkout/PaywallScreen'
 import GenerateReportButton from '../../reports/GenerateReportButton'
 import { generateResponseLetter } from './actions'
 
 export default async function ResponseLetterPage() {
   const tenancy = await getCurrentTenancy()
   if (!tenancy) redirect('/')
+
+  if (!(await hasPaidForDisputeKit(tenancy.id))) {
+    return <PaywallScreen tenancyId={tenancy.id} />
+  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-4 p-6">

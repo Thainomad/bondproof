@@ -1,11 +1,17 @@
 import { redirect } from 'next/navigation'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { getCurrentDispute } from '@/lib/dispute'
+import { hasPaidForDisputeKit } from '@/lib/payments'
+import PaywallScreen from '@/app/checkout/PaywallScreen'
 import NcatForm from './NcatForm'
 
 export default async function NcatPage() {
   const tenancy = await getCurrentTenancy()
   if (!tenancy) redirect('/')
+
+  if (!(await hasPaidForDisputeKit(tenancy.id))) {
+    return <PaywallScreen tenancyId={tenancy.id} />
+  }
 
   const current = await getCurrentDispute(tenancy.id)
   if (!current) redirect('/dispute')
