@@ -27,13 +27,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <div className="flex-1">{children}</div>
-        <footer className="flex justify-center gap-4 border-t border-gray-200 p-4 text-xs text-gray-500">
-          <a href="/legal/terms" className="underline">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
+        <div className="flex flex-1 flex-col">{children}</div>
+        <footer className="flex justify-center gap-4 border-t border-border p-4 text-xs text-muted">
+          <a href="/legal/terms" className="hover:text-foreground">
             Terms
           </a>
-          <a href="/legal/privacy" className="underline">
+          <a href="/legal/privacy" className="hover:text-foreground">
             Privacy
           </a>
         </footer>

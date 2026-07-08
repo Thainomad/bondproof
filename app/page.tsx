@@ -1,10 +1,14 @@
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentTenancy } from '@/lib/tenancy'
 import { signOut } from './login/sign-out'
 import GenerateReportButton from './reports/GenerateReportButton'
 import { generateEntryReport } from './reports/entry/actions'
 import { generateExitReport } from './reports/exit/actions'
+import Button from '@/components/ui/Button'
+import LinkButton from '@/components/ui/LinkButton'
+import Card from '@/components/ui/Card'
+import Badge, { type BadgeTone } from '@/components/ui/Badge'
+import PageContainer from '@/components/ui/PageContainer'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -15,13 +19,10 @@ export default async function Home() {
   if (!user) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="text-2xl font-semibold">BondProof</h1>
-        <Link
-          href="/login"
-          className="rounded-md bg-black px-4 py-3 text-base font-medium text-white"
-        >
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">BondProof</h1>
+        <LinkButton href="/login" fullWidth={false} size="lg" className="px-8">
           Sign in
-        </Link>
+        </LinkButton>
       </main>
     )
   }
@@ -76,110 +77,117 @@ export default async function Home() {
     latestExitReportId = exitReport.data?.id ?? null
   }
 
+  const statusTone: BadgeTone =
+    tenancy?.status === 'active'
+      ? 'success'
+      : tenancy?.status === 'exiting'
+        ? 'warning'
+        : tenancy?.status === 'dispute'
+          ? 'danger'
+          : 'neutral'
+
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
+    <PageContainer>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">BondProof</h1>
+        <h1 className="text-xl font-bold tracking-tight text-foreground">BondProof</h1>
         <form action={signOut}>
-          <button
-            type="submit"
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium"
-          >
+          <Button type="submit" variant="ghost" size="sm" fullWidth={false}>
             Sign out
-          </button>
+          </Button>
         </form>
       </div>
 
       {tenancy ? (
-        <div className="flex flex-col gap-3 rounded-lg border border-gray-200 p-4">
-          <p className="font-medium">{tenancy.address}</p>
-          <p className="text-sm text-gray-600">
-            Lease start: {tenancy.lease_start ?? 'Not set'}
-          </p>
-          {tenancy.lease_end && (
-            <p className="text-sm text-gray-600">Lease end: {tenancy.lease_end}</p>
-          )}
-          <p className="text-sm text-gray-600">
-            Bond: ${((tenancy.bond_amount_cents ?? 0) / 100).toFixed(2)}
-          </p>
-          <p className="text-sm text-gray-600">Status: {tenancy.status}</p>
-          {entrySession?.completed_at ? (
-            <>
-              <p className="text-sm font-medium text-green-700">
-                Entry capture complete
-              </p>
+        <div className="flex flex-col gap-4">
+          <Card>
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-semibold text-foreground">{tenancy.address}</p>
+              <Badge tone={statusTone as never}>{tenancy.status}</Badge>
+            </div>
+            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt className="text-muted">Bond</dt>
+                <dd className="font-medium text-foreground">
+                  ${((tenancy.bond_amount_cents ?? 0) / 100).toFixed(2)}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-muted">Lease start</dt>
+                <dd className="font-medium text-foreground">{tenancy.lease_start ?? 'Not set'}</dd>
+              </div>
+              {tenancy.lease_end && (
+                <div>
+                  <dt className="text-muted">Lease end</dt>
+                  <dd className="font-medium text-foreground">{tenancy.lease_end}</dd>
+                </div>
+              )}
+            </dl>
+          </Card>
+
+          <Card className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-foreground">Move-in</h2>
+              {entrySession?.completed_at && <Badge tone="success">Complete</Badge>}
+            </div>
+            {entrySession?.completed_at ? (
               <GenerateReportButton
                 tenancyId={tenancy.id}
                 existingDocumentId={latestEntryReportId}
                 generateAction={generateEntryReport}
                 label="entry report"
               />
+            ) : (
+              <LinkButton href="/capture/entry">
+                {entrySession ? 'Resume entry capture' : 'Start entry capture'}
+              </LinkButton>
+            )}
+          </Card>
 
-              <hr className="my-1 border-gray-200" />
-
-              <Link
-                href="/capture/exit/cleaning"
-                className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
-              >
+          {entrySession?.completed_at && (
+            <Card className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-foreground">Move-out</h2>
+                {exitSession?.completed_at && <Badge tone="success">Complete</Badge>}
+              </div>
+              <LinkButton href="/capture/exit/cleaning" variant="outline">
                 Pre-handover cleaning checklist
-              </Link>
-
+              </LinkButton>
               {exitSession?.completed_at ? (
                 <>
-                  <p className="text-sm font-medium text-green-700">
-                    Exit capture complete
-                  </p>
-                  <Link
-                    href="/compare"
-                    className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
-                  >
+                  <LinkButton href="/compare" variant="outline">
                     View entry vs exit comparison
-                  </Link>
+                  </LinkButton>
                   <GenerateReportButton
                     tenancyId={tenancy.id}
                     existingDocumentId={latestExitReportId}
                     generateAction={generateExitReport}
                     label="exit report"
                   />
-
-                  <hr className="my-1 border-gray-200" />
-
-                  <Link
-                    href="/dispute"
-                    className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
-                  >
-                    Agent claiming a deduction? Start a dispute
-                  </Link>
                 </>
               ) : (
-                <Link
-                  href="/capture/exit"
-                  className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
-                >
-                  {exitSession ? 'Resume exit capture' : "Moving out? Start exit capture"}
-                </Link>
+                <LinkButton href="/capture/exit">
+                  {exitSession ? 'Resume exit capture' : 'Moving out? Start exit capture'}
+                </LinkButton>
               )}
-            </>
-          ) : (
-            <Link
-              href="/capture/entry"
-              className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
-            >
-              {entrySession ? 'Resume entry capture' : 'Start entry capture'}
-            </Link>
+            </Card>
+          )}
+
+          {exitSession?.completed_at && (
+            <Card className="flex flex-col gap-3 border-primary/20 bg-indigo-50/40">
+              <h2 className="text-sm font-semibold text-foreground">Dispute</h2>
+              <p className="text-sm text-muted">
+                Agent claiming a deduction? We&apos;ll help you dispute it.
+              </p>
+              <LinkButton href="/dispute">Start a dispute</LinkButton>
+            </Card>
           )}
         </div>
       ) : (
-        <div className="flex flex-col gap-3 rounded-lg border border-gray-200 p-4 text-center">
-          <p className="text-gray-600">No tenancy set up yet.</p>
-          <Link
-            href="/tenancy/new"
-            className="rounded-md bg-black px-4 py-3 text-base font-medium text-white"
-          >
-            Set up your tenancy
-          </Link>
-        </div>
+        <Card className="flex flex-col gap-3 text-center">
+          <p className="text-muted">No tenancy set up yet.</p>
+          <LinkButton href="/tenancy/new">Set up your tenancy</LinkButton>
+        </Card>
       )}
-    </main>
+    </PageContainer>
   )
 }

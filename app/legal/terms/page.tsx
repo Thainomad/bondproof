@@ -1,8 +1,8 @@
 export default function TermsPage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-4 p-6 text-sm text-gray-800">
-      <h1 className="text-2xl font-semibold text-black">Terms of Service</h1>
-      <p className="text-xs text-gray-500">Last updated: 8 July 2026</p>
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-4 p-6 text-sm text-foreground">
+      <h1 className="text-2xl font-semibold text-foreground">Terms of Service</h1>
+      <p className="text-xs text-muted">Last updated: 8 July 2026</p>
 
       <p>
         BondProof (&quot;we&quot;, &quot;us&quot;) provides a document preparation
@@ -11,7 +11,7 @@ export default function TermsPage() {
         these terms.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">1. What BondProof is — and isn&apos;t</h2>
+      <h2 className="text-lg font-semibold text-foreground">1. What BondProof is — and isn&apos;t</h2>
       <p>
         BondProof helps you document your rental property&apos;s condition,
         organise photo evidence, and prepare paperwork (condition reports,
@@ -26,14 +26,14 @@ export default function TermsPage() {
         on generated documents in a dispute.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">2. Your account</h2>
+      <h2 className="text-lg font-semibold text-foreground">2. Your account</h2>
       <p>
         You&apos;re responsible for the accuracy of the information you enter
         (tenancy details, claimed amounts, photos) and for keeping your login
         secure. One free account may have one active tenancy at a time.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">3. Pricing</h2>
+      <h2 className="text-lg font-semibold text-foreground">3. Pricing</h2>
       <p>
         Entry capture, the evidence vault, and the entry condition report are
         free. The Dispute Kit (exit comparison, evidence pack, response
@@ -44,7 +44,7 @@ export default function TermsPage() {
         Australian Consumer Law.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">4. Accuracy of generated documents</h2>
+      <h2 className="text-lg font-semibold text-foreground">4. Accuracy of generated documents</h2>
       <p>
         Response letters are drafted by an AI model constrained to the
         evidence you&apos;ve captured in the app. You&apos;re responsible for
@@ -53,7 +53,7 @@ export default function TermsPage() {
         guarantee any particular outcome from a dispute or NCAT application.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">5. Your content</h2>
+      <h2 className="text-lg font-semibold text-foreground">5. Your content</h2>
       <p>
         You retain ownership of the photos and information you upload. You
         grant us a licence to store and process it solely to provide the
@@ -62,7 +62,7 @@ export default function TermsPage() {
         for how we handle your data, including export and deletion.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">6. Limitation of liability</h2>
+      <h2 className="text-lg font-semibold text-foreground">6. Limitation of liability</h2>
       <p>
         To the maximum extent permitted by law, BondProof is provided
         &quot;as is&quot; without warranties of any kind. We are not liable
@@ -72,16 +72,16 @@ export default function TermsPage() {
         cannot be excluded.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">7. Changes</h2>
+      <h2 className="text-lg font-semibold text-foreground">7. Changes</h2>
       <p>
         We may update these terms from time to time. Continued use of the
         service after a change means you accept the updated terms.
       </p>
 
-      <h2 className="text-lg font-semibold text-black">8. Governing law</h2>
+      <h2 className="text-lg font-semibold text-foreground">8. Governing law</h2>
       <p>These terms are governed by the laws of New South Wales, Australia.</p>
 
-      <p className="mt-4 text-xs text-gray-500">
+      <p className="mt-4 text-xs text-muted">
         This is a draft template and has not been reviewed by a solicitor.
         Have it reviewed before relying on it commercially.
       </p>

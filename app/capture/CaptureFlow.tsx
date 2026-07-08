@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
-import { useRouter } from 'next/navigation'
 import { ensureEvidenceItem, saveEvidenceItem, completeSession } from './actions'
+import Button from '@/components/ui/Button'
+import LinkButton from '@/components/ui/LinkButton'
+import { TextAreaField } from '@/components/ui/TextField'
 
 type ChecklistItem = {
   id: string
@@ -29,6 +31,12 @@ const ROOM_LABELS: Record<string, string> = {
   exterior: 'Exterior',
 }
 
+const RATING_STYLES: Record<'good' | 'fair' | 'damaged', { active: string }> = {
+  good: { active: 'border-success bg-success-bg text-success' },
+  fair: { active: 'border-warning bg-warning-bg text-warning' },
+  damaged: { active: 'border-danger bg-danger-bg text-danger' },
+}
+
 export default function CaptureFlow({
   sessionId,
   items,
@@ -40,7 +48,6 @@ export default function CaptureFlow({
   existingEvidence: ExistingEvidence[]
   sessionType?: 'entry' | 'exit'
 }) {
-  const router = useRouter()
   const evidenceByChecklistId = useMemo(() => {
     const map = new Map<string, ExistingEvidence>()
     for (const e of existingEvidence) map.set(e.checklist_item_id, e)
@@ -148,20 +155,20 @@ export default function CaptureFlow({
   if (isDone) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="text-2xl font-semibold">
+        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-2xl">
+          ✓
+        </div>
+        <h1 className="text-2xl font-semibold text-foreground">
           {sessionType === 'entry' ? 'Entry capture complete' : 'Exit capture complete'}
         </h1>
-        <p className="text-gray-600">
+        <p className="max-w-xs text-muted">
           {sessionType === 'entry'
             ? 'Nice work — your move-in condition is documented.'
             : 'Nice work — your move-out condition is documented.'}
         </p>
-        <button
-          onClick={() => router.push('/')}
-          className="rounded-md bg-black px-4 py-3 text-base font-medium text-white"
-        >
+        <LinkButton href="/" fullWidth={false} className="mt-2 px-8">
           Back to dashboard
-        </button>
+        </LinkButton>
       </main>
     )
   }
@@ -170,27 +177,29 @@ export default function CaptureFlow({
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-5 p-6">
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-muted">
         <span>{ROOM_LABELS[currentItem.room] ?? currentItem.room}</span>
         <span>
           {index + 1} / {items.length}
         </span>
       </div>
-      <div className="h-1.5 w-full rounded-full bg-gray-200">
+      <div className="h-1.5 w-full rounded-full bg-border">
         <div
-          className="h-1.5 rounded-full bg-black transition-all"
+          className="h-1.5 rounded-full bg-primary transition-all"
           style={{ width: `${(index / items.length) * 100}%` }}
         />
       </div>
 
-      <h1 className="text-2xl font-semibold">{currentItem.label}</h1>
-      {currentItem.guidance && <p className="text-gray-600">{currentItem.guidance}</p>}
-      {currentItem.high_claim_flag && (
-        <p className="text-sm font-medium text-amber-600">
-          High-claim item — add at least {currentItem.min_photos} photo
-          {currentItem.min_photos > 1 ? 's' : ''}.
-        </p>
-      )}
+      <div>
+        <h1 className="text-2xl font-semibold text-foreground">{currentItem.label}</h1>
+        {currentItem.guidance && <p className="mt-1 text-muted">{currentItem.guidance}</p>}
+        {currentItem.high_claim_flag && (
+          <p className="mt-2 text-sm font-medium text-warning">
+            High-claim item — add at least {currentItem.min_photos} photo
+            {currentItem.min_photos > 1 ? 's' : ''}.
+          </p>
+        )}
+      </div>
 
       <input
         ref={fileInputRef}
@@ -204,7 +213,7 @@ export default function CaptureFlow({
         type="button"
         onClick={() => fileInputRef.current?.click()}
         disabled={uploading}
-        className="rounded-md border-2 border-dashed border-gray-300 px-4 py-6 text-base font-medium disabled:opacity-50"
+        className="rounded-lg border-2 border-dashed border-border px-4 py-6 text-base font-medium text-foreground transition-colors hover:bg-slate-50 disabled:opacity-50"
       >
         {uploading
           ? 'Uploading...'
@@ -219,8 +228,8 @@ export default function CaptureFlow({
             key={r}
             type="button"
             onClick={() => setRating(r)}
-            className={`rounded-md border px-3 py-4 text-base font-medium capitalize ${
-              rating === r ? 'border-black bg-black text-white' : 'border-gray-300 text-gray-700'
+            className={`rounded-lg border px-3 py-4 text-base font-medium capitalize transition-colors ${
+              rating === r ? RATING_STYLES[r].active : 'border-border text-muted hover:bg-slate-50'
             }`}
           >
             {r}
@@ -228,29 +237,23 @@ export default function CaptureFlow({
         ))}
       </div>
 
-      <textarea
+      <TextAreaField
         value={note}
         onChange={(e) => setNote(e.target.value)}
         placeholder="Optional note"
         rows={2}
-        className="rounded-md border border-gray-300 px-4 py-3 text-base"
       />
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
 
-      <button
-        type="button"
-        onClick={() => handleNext(false)}
-        disabled={!canAdvance || saving}
-        className="rounded-md bg-black px-4 py-4 text-lg font-medium text-white disabled:opacity-30"
-      >
+      <Button type="button" size="lg" onClick={() => handleNext(false)} disabled={!canAdvance || saving}>
         {saving ? 'Saving...' : 'Next'}
-      </button>
+      </Button>
       <button
         type="button"
         onClick={() => handleNext(true)}
         disabled={saving}
-        className="text-sm text-gray-500 underline"
+        className="text-sm text-muted underline disabled:opacity-50"
       >
         Not applicable / skip
       </button>

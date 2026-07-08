@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { stripe } from '@/lib/stripe'
 import { recordPaymentFromSession } from '@/lib/record-payment'
+import LinkButton from '@/components/ui/LinkButton'
 
 export default async function CheckoutSuccessPage({
   searchParams,
@@ -16,14 +16,13 @@ export default async function CheckoutSuccessPage({
   if (session.payment_status !== 'paid') {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="text-2xl font-semibold">Payment not confirmed</h1>
-        <p className="text-gray-600">
-          We couldn&apos;t confirm this payment. If you were charged, contact
-          support.
+        <h1 className="text-2xl font-semibold text-foreground">Payment not confirmed</h1>
+        <p className="max-w-xs text-muted">
+          We couldn&apos;t confirm this payment. If you were charged, contact support.
         </p>
-        <Link href="/" className="rounded-md bg-black px-4 py-3 text-base font-medium text-white">
+        <LinkButton href="/" fullWidth={false} className="px-8">
           Back to dashboard
-        </Link>
+        </LinkButton>
       </main>
     )
   }
@@ -32,14 +31,17 @@ export default async function CheckoutSuccessPage({
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
-      <h1 className="text-2xl font-semibold">Dispute Kit unlocked</h1>
-      <p className="text-gray-600">
-        You now have full access to the exit comparison, evidence pack,
-        response letter, and NCAT pre-fill for this tenancy.
+      <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-2xl">
+        ✓
+      </div>
+      <h1 className="text-2xl font-semibold text-foreground">Dispute Kit unlocked</h1>
+      <p className="max-w-xs text-muted">
+        You now have full access to the exit comparison, evidence pack, response letter, and NCAT
+        pre-fill for this tenancy.
       </p>
-      <Link href="/" className="rounded-md bg-black px-4 py-3 text-base font-medium text-white">
+      <LinkButton href="/" fullWidth={false} className="px-8">
         Back to dashboard
-      </Link>
+      </LinkButton>
     </main>
   )
 }

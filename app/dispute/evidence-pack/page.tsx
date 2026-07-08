@@ -4,6 +4,8 @@ import { hasPaidForDisputeKit } from '@/lib/payments'
 import PaywallScreen from '@/app/checkout/PaywallScreen'
 import GenerateReportButton from '../../reports/GenerateReportButton'
 import { generateEvidencePack } from './actions'
+import PageContainer from '@/components/ui/PageContainer'
+import Card from '@/components/ui/Card'
 
 export default async function EvidencePackPage() {
   const tenancy = await getCurrentTenancy()
@@ -14,18 +16,19 @@ export default async function EvidencePackPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold">Evidence pack</h1>
-      <p className="text-sm text-gray-600">
-        Entry vs exit photos for each disputed item, plus a chronology of your
-        tenancy.
-      </p>
-      <GenerateReportButton
-        tenancyId={tenancy.id}
-        existingDocumentId={null}
-        generateAction={generateEvidencePack}
-        label="evidence pack"
-      />
-    </main>
+    <PageContainer>
+      <h1 className="text-xl font-bold tracking-tight text-foreground">Evidence pack</h1>
+      <Card className="flex flex-col gap-4">
+        <p className="text-sm text-muted">
+          Entry vs exit photos for each disputed item, plus a chronology of your tenancy.
+        </p>
+        <GenerateReportButton
+          tenancyId={tenancy.id}
+          existingDocumentId={null}
+          generateAction={generateEvidencePack}
+          label="evidence pack"
+        />
+      </Card>
+    </PageContainer>
   )
 }

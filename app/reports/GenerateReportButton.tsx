@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import Button from '@/components/ui/Button'
+import { buttonStyles } from '@/components/ui/button-styles'
 
 export default function GenerateReportButton({
   tenancyId,
@@ -32,22 +34,14 @@ export default function GenerateReportButton({
   return (
     <div className="flex flex-col gap-2">
       {documentId && (
-        <a
-          href={`/api/documents/${documentId}`}
-          className="rounded-md border border-gray-300 px-4 py-3 text-center text-base font-medium"
-        >
+        <a href={`/api/documents/${documentId}`} className={buttonStyles({ variant: 'outline' })}>
           Download {label} PDF
         </a>
       )}
-      <button
-        type="button"
-        onClick={handleGenerate}
-        disabled={generating}
-        className="rounded-md bg-black px-4 py-3 text-base font-medium text-white disabled:opacity-50"
-      >
+      <Button type="button" onClick={handleGenerate} disabled={generating}>
         {generating ? 'Generating...' : documentId ? 'Regenerate report' : `Generate ${label}`}
-      </button>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      </Button>
+      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   )
 }

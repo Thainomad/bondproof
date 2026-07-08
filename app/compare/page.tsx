@@ -3,6 +3,9 @@ import { getCurrentTenancy } from '@/lib/tenancy'
 import { getComparisonRows } from '@/lib/comparison'
 import { hasPaidForDisputeKit } from '@/lib/payments'
 import PaywallScreen from '@/app/checkout/PaywallScreen'
+import PageContainer from '@/components/ui/PageContainer'
+import Card from '@/components/ui/Card'
+import Badge from '@/components/ui/Badge'
 
 const ROOM_LABELS: Record<string, string> = {
   general: 'Every room',
@@ -13,10 +16,10 @@ const ROOM_LABELS: Record<string, string> = {
   exterior: 'Exterior',
 }
 
-const RATING_COLORS: Record<string, string> = {
-  good: 'bg-green-600',
-  fair: 'bg-amber-600',
-  damaged: 'bg-red-600',
+const RATING_TONE: Record<string, 'success' | 'warning' | 'danger'> = {
+  good: 'success',
+  fair: 'warning',
+  damaged: 'danger',
 }
 
 export default async function ComparePage() {
@@ -40,84 +43,74 @@ export default async function ComparePage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold">Entry vs exit comparison</h1>
-      <p className="text-sm text-gray-600">
-        Items flagged below are likely claim targets — worsened condition or a
-        common high-claim category.
+    <PageContainer width="2xl">
+      <h1 className="text-xl font-bold tracking-tight text-foreground">Entry vs exit comparison</h1>
+      <p className="-mt-2 text-sm text-muted">
+        Items flagged below are likely claim targets — worsened condition or a common high-claim
+        category.
       </p>
 
       {rooms.map((section) => (
         <div key={section.room}>
-          <h2 className="mt-4 mb-2 text-lg font-semibold">
+          <h2 className="mb-2 text-sm font-semibold text-foreground">
             {ROOM_LABELS[section.room] ?? section.room}
           </h2>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {section.rows.map((row) => {
               const flagged = row.worsened || row.highClaimFlag
               return (
-                <div
+                <Card
                   key={row.checklistItemId}
-                  className={`rounded-lg border p-4 ${
-                    flagged ? 'border-amber-400 bg-amber-50' : 'border-gray-200'
-                  }`}
+                  className={flagged ? 'border-warning/30 bg-warning-bg/40' : ''}
                 >
-                  <div className="mb-2 flex items-center justify-between">
-                    <h3 className="font-medium">{row.label}</h3>
+                  <div className="mb-3 flex items-center justify-between">
+                    <h3 className="font-medium text-foreground">{row.label}</h3>
                     {flagged && (
-                      <span className="rounded-full bg-amber-500 px-2 py-0.5 text-xs font-semibold text-white">
-                        {row.worsened ? 'Worsened' : 'High-claim'}
-                      </span>
+                      <Badge tone="warning">{row.worsened ? 'Worsened' : 'High-claim'}</Badge>
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <Side label="Entry" side={row.entry} ratingColors={RATING_COLORS} />
-                    <Side label="Exit" side={row.exit} ratingColors={RATING_COLORS} />
+                    <Side label="Entry" side={row.entry} />
+                    <Side label="Exit" side={row.exit} />
                   </div>
-                </div>
+                </Card>
               )
             })}
           </div>
         </div>
       ))}
-    </main>
+    </PageContainer>
   )
 }
 
 function Side({
   label,
   side,
-  ratingColors,
 }: {
   label: string
   side: { condition_rating: string | null; note: string | null; photos: { url: string }[] } | null
-  ratingColors: Record<string, string>
 }) {
   return (
     <div>
-      <div className="mb-1 flex items-center justify-between">
-        <span className="text-xs font-medium uppercase text-gray-500">{label}</span>
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className="text-xs font-medium uppercase text-muted">{label}</span>
         {side?.condition_rating && (
-          <span
-            className={`rounded-full px-2 py-0.5 text-xs font-semibold text-white ${
-              ratingColors[side.condition_rating] ?? 'bg-gray-400'
-            }`}
-          >
+          <Badge tone={RATING_TONE[side.condition_rating] ?? 'neutral'}>
             {side.condition_rating}
-          </span>
+          </Badge>
         )}
       </div>
       {side?.photos.length ? (
         <div className="flex flex-wrap gap-1">
           {side.photos.map((p, i) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={i} src={p.url} alt="" className="h-20 w-20 rounded object-cover" />
+            <img key={i} src={p.url} alt="" className="h-20 w-20 rounded-md object-cover" />
           ))}
         </div>
       ) : (
-        <p className="text-xs italic text-gray-400">No photos</p>
+        <p className="text-xs italic text-muted">No photos</p>
       )}
-      {side?.note && <p className="mt-1 text-xs text-gray-600">{side.note}</p>}
+      {side?.note && <p className="mt-1 text-xs text-muted">{side.note}</p>}
     </div>
   )
 }

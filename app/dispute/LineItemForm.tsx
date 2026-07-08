@@ -2,6 +2,9 @@
 
 import { useRef, useState } from 'react'
 import { addLineItem } from './actions'
+import Card from '@/components/ui/Card'
+import Button from '@/components/ui/Button'
+import { TextField, TextAreaField } from '@/components/ui/TextField'
 
 export default function LineItemForm({ disputeId }: { disputeId: string }) {
   const [error, setError] = useState('')
@@ -21,41 +24,22 @@ export default function LineItemForm({ disputeId }: { disputeId: string }) {
   }
 
   return (
-    <form
-      ref={formRef}
-      action={handleSubmit}
-      className="flex flex-col gap-3 rounded-lg border border-gray-200 p-4"
-    >
-      <input type="hidden" name="dispute_id" value={disputeId} />
-      <h3 className="font-medium">Add a claimed deduction</h3>
-      <input
-        name="category"
-        placeholder="Category (e.g. Carpet, Oven, Walls)"
-        required
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
-      />
-      <textarea
-        name="description"
-        placeholder="What the agent/landlord said (optional)"
-        rows={2}
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
-      />
-      <input
-        name="amount"
-        type="number"
-        step="0.01"
-        placeholder="Amount claimed ($)"
-        required
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
-      />
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={submitting}
-        className="rounded-md bg-black px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
-      >
-        {submitting ? 'Adding...' : 'Add line item'}
-      </button>
-    </form>
+    <Card>
+      <form ref={formRef} action={handleSubmit} className="flex flex-col gap-3">
+        <input type="hidden" name="dispute_id" value={disputeId} />
+        <h3 className="text-sm font-semibold text-foreground">Add a claimed deduction</h3>
+        <TextField name="category" placeholder="Category (e.g. Carpet, Oven, Walls)" required />
+        <TextAreaField
+          name="description"
+          placeholder="What the agent/landlord said (optional)"
+          rows={2}
+        />
+        <TextField name="amount" type="number" step="0.01" placeholder="Amount claimed ($)" required />
+        {error && <p className="text-sm text-danger">{error}</p>}
+        <Button type="submit" size="sm" disabled={submitting}>
+          {submitting ? 'Adding...' : 'Add line item'}
+        </Button>
+      </form>
+    </Card>
   )
 }

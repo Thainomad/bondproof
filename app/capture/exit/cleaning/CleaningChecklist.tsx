@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Card from '@/components/ui/Card'
 
 type Category = { category: string; tips: string[] }
 
@@ -12,11 +13,11 @@ export default function CleaningChecklist({ categories }: { categories: Category
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       {categories.map((cat) => (
-        <div key={cat.category}>
-          <h2 className="mb-2 text-lg font-semibold">{cat.category}</h2>
-          <ul className="flex flex-col gap-2">
+        <Card key={cat.category}>
+          <h2 className="mb-3 text-sm font-semibold text-foreground">{cat.category}</h2>
+          <ul className="flex flex-col gap-2.5">
             {cat.tips.map((tip, i) => {
               const key = `${cat.category}-${i}`
               return (
@@ -26,9 +27,9 @@ export default function CleaningChecklist({ categories }: { categories: Category
                       type="checkbox"
                       checked={!!checked[key]}
                       onChange={() => toggle(key)}
-                      className="mt-0.5 h-5 w-5"
+                      className="mt-0.5 h-5 w-5 accent-primary"
                     />
-                    <span className={checked[key] ? 'text-gray-400 line-through' : ''}>
+                    <span className={checked[key] ? 'text-muted line-through' : 'text-foreground'}>
                       {tip}
                     </span>
                   </label>
@@ -36,7 +37,7 @@ export default function CleaningChecklist({ categories }: { categories: Category
               )
             })}
           </ul>
-        </div>
+        </Card>
       ))}
     </div>
   )

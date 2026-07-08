@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { generateNcatForm } from './actions'
+import Button from '@/components/ui/Button'
+import { TextField, TextAreaField } from '@/components/ui/TextField'
+import { buttonStyles } from '@/components/ui/button-styles'
 
 export default function NcatForm({ tenancyId }: { tenancyId: string }) {
   const [documentId, setDocumentId] = useState<string | null>(null)
@@ -23,13 +26,8 @@ export default function NcatForm({ tenancyId }: { tenancyId: string }) {
   if (documentId) {
     return (
       <div className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-green-700">
-          NCAT application form generated.
-        </p>
-        <a
-          href={`/api/documents/${documentId}`}
-          className="rounded-md bg-black px-4 py-3 text-center text-base font-medium text-white"
-        >
+        <p className="text-sm font-medium text-success">NCAT application form generated.</p>
+        <a href={`/api/documents/${documentId}`} className={buttonStyles()}>
           Download NCAT application PDF
         </a>
       </div>
@@ -38,33 +36,18 @@ export default function NcatForm({ tenancyId }: { tenancyId: string }) {
 
   return (
     <form action={handleSubmit} className="flex flex-col gap-3">
-      <input
-        name="full_name"
-        placeholder="Your full name"
-        required
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
-      />
-      <input
-        name="phone"
-        placeholder="Phone number"
-        required
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
-      />
-      <textarea
+      <TextField name="full_name" placeholder="Your full name" required />
+      <TextField name="phone" placeholder="Phone number" required />
+      <TextAreaField
         name="postal_address"
         placeholder="Postal address for correspondence"
         rows={2}
         required
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
       />
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={submitting}
-        className="rounded-md bg-black px-4 py-3 text-base font-medium text-white disabled:opacity-50"
-      >
+      {error && <p className="text-sm text-danger">{error}</p>}
+      <Button type="submit" disabled={submitting}>
         {submitting ? 'Generating...' : 'Generate NCAT application'}
-      </button>
+      </Button>
     </form>
   )
 }

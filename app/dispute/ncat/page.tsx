@@ -4,6 +4,8 @@ import { getCurrentDispute } from '@/lib/dispute'
 import { hasPaidForDisputeKit } from '@/lib/payments'
 import PaywallScreen from '@/app/checkout/PaywallScreen'
 import NcatForm from './NcatForm'
+import PageContainer from '@/components/ui/PageContainer'
+import Card from '@/components/ui/Card'
 
 export default async function NcatPage() {
   const tenancy = await getCurrentTenancy()
@@ -17,14 +19,16 @@ export default async function NcatPage() {
   if (!current) redirect('/dispute')
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold">NCAT application</h1>
-      <p className="text-sm text-gray-600">
-        We&apos;ll pre-fill the official NCAT Tenancy application form with your
-        property and dispute details. Fill in your contact details below —
-        double-check everything before lodging with NCAT.
-      </p>
-      <NcatForm tenancyId={tenancy.id} />
-    </main>
+    <PageContainer>
+      <h1 className="text-xl font-bold tracking-tight text-foreground">NCAT application</h1>
+      <Card className="flex flex-col gap-4">
+        <p className="text-sm text-muted">
+          We&apos;ll pre-fill the official NCAT Tenancy application form with your property and
+          dispute details. Fill in your contact details below — double-check everything before
+          lodging with NCAT.
+        </p>
+        <NcatForm tenancyId={tenancy.id} />
+      </Card>
+    </PageContainer>
   )
 }
