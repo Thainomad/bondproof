@@ -1,6 +1,7 @@
 import { createDisputeKitCheckout } from './actions'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
+import BackLink from '@/components/ui/BackLink'
 
 export default function PaywallScreen({
   tenancyId,
@@ -13,6 +14,9 @@ export default function PaywallScreen({
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
+      <div className="w-full max-w-sm text-left">
+        <BackLink href={`/?t=${tenancyId}`} label="Dashboard" />
+      </div>
       <h1 className="text-2xl font-bold tracking-tight text-foreground">Dispute Kit — $49</h1>
       <Card className="flex flex-col gap-4 text-left">
         <p className="text-sm text-muted">

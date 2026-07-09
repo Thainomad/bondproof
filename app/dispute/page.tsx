@@ -27,7 +27,7 @@ export default async function DisputePage({
   const isShortTerm = tenancy.stay_type === 'short_term'
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/?t=${tenancy.id}`} backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">Dispute</h1>
 
       {!current ? (

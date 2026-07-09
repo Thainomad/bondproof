@@ -2,9 +2,15 @@ import cleaningData from '@/data/pre-handover-cleaning.nsw.json'
 import CleaningChecklist from './CleaningChecklist'
 import PageContainer from '@/components/ui/PageContainer'
 
-export default function PreHandoverCleaningPage() {
+export default async function PreHandoverCleaningPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+
   return (
-    <PageContainer>
+    <PageContainer backHref={t ? `/?t=${t}` : '/'} backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">
         Pre-handover cleaning checklist
       </h1>

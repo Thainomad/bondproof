@@ -2,6 +2,7 @@
 
 import { useState, type ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createIncident } from '../actions'
 import Button from '@/components/ui/Button'
 import { TextField, TextAreaField } from '@/components/ui/TextField'
@@ -86,9 +87,17 @@ export default function IncidentForm({ tenancyId }: { tenancyId: string }) {
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
-      <Button type="submit" disabled={submitting} className="mt-2">
-        {submitting ? 'Saving...' : 'Log incident'}
-      </Button>
+      <div className="mt-2 flex items-center gap-3">
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Saving...' : 'Log incident'}
+        </Button>
+        <Link
+          href={`/incidents?t=${tenancyId}`}
+          className="whitespace-nowrap text-sm font-medium text-muted hover:text-foreground"
+        >
+          Cancel
+        </Link>
+      </div>
     </form>
   )
 }

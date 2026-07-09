@@ -24,6 +24,16 @@ export default async function ExitCapturePage({
 
   if (!entrySession) redirect('/')
 
+  const { data: completedExit } = await supabase
+    .from('capture_sessions')
+    .select('id')
+    .eq('tenancy_id', tenancy.id)
+    .eq('type', 'exit')
+    .not('completed_at', 'is', null)
+    .maybeSingle()
+
+  if (completedExit) redirect(`/?t=${tenancy.id}`)
+
   const data = await getOrCreateCaptureSession(tenancy, 'exit')
   if (!data) redirect('/')
 

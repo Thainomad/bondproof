@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { sendMagicLink, signInWithPassword } from './actions'
 import Button from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
@@ -121,6 +122,9 @@ export default function LoginPage() {
           </button>
         </form>
       )}
+      <Link href="/signup" className="text-sm text-muted underline">
+        New here? Create an account
+      </Link>
     </main>
   )
 }

@@ -16,7 +16,7 @@ export default async function EditTenancyPage({
   const isShortTerm = tenancy.stay_type === 'short_term'
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/?t=${tenancy.id}`} backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">
         Edit {isShortTerm ? 'stay' : 'tenancy'} details
       </h1>

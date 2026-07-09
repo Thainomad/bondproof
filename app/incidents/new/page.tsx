@@ -14,7 +14,7 @@ export default async function NewIncidentPage({
   if (!tenancy) redirect('/')
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/incidents?t=${tenancy.id}`} backLabel="Incidents">
       <h1 className="text-xl font-bold tracking-tight text-foreground">Log an incident</h1>
       <Card>
         <p className="mb-4 text-sm text-muted">

@@ -25,7 +25,7 @@ export default async function NcatPage({
   if (!current) redirect(`/dispute?t=${tenancy.id}`)
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/dispute?t=${tenancy.id}`} backLabel="Dispute">
       <h1 className="text-xl font-bold tracking-tight text-foreground">NCAT application</h1>
       <Card className="flex flex-col gap-4">
         <p className="text-sm text-muted">

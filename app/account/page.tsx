@@ -15,7 +15,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <PageContainer>
+    <PageContainer backHref="/" backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">Account</h1>
       <Card className="flex flex-col gap-4">
         <div>

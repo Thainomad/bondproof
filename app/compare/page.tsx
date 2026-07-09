@@ -48,7 +48,7 @@ export default async function ComparePage({
   }
 
   return (
-    <PageContainer width="2xl">
+    <PageContainer width="2xl" backHref={`/?t=${tenancy.id}`} backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">Entry vs exit comparison</h1>
       <p className="-mt-2 text-sm text-muted">
         Items flagged below are likely claim targets — worsened condition or a common high-claim

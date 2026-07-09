@@ -27,7 +27,7 @@ export default function NewTenancyPage() {
   const isShortTerm = stayType === 'short_term'
 
   return (
-    <PageContainer>
+    <PageContainer backHref="/" backLabel="Dashboard">
       <h1 className="text-xl font-bold tracking-tight text-foreground">
         Set up your {isShortTerm ? 'stay' : 'tenancy'}
       </h1>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { updateTenancy } from './actions'
 import Button from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
@@ -73,9 +74,17 @@ export default function EditTenancyForm({ tenancy }: { tenancy: Tenancy }) {
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
-      <Button type="submit" disabled={submitting} className="mt-2">
-        {submitting ? 'Saving...' : 'Save changes'}
-      </Button>
+      <div className="mt-2 flex items-center gap-3">
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Saving...' : 'Save changes'}
+        </Button>
+        <Link
+          href={`/?t=${tenancy.id}`}
+          className="whitespace-nowrap text-sm font-medium text-muted hover:text-foreground"
+        >
+          Cancel
+        </Link>
+      </div>
     </form>
   )
 }

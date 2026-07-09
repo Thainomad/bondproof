@@ -17,7 +17,7 @@ export default async function IncidentsPage({
   const incidents = await getIncidents(tenancy.id)
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/?t=${tenancy.id}`} backLabel="Dashboard">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight text-foreground">Incidents</h1>
         <LinkButton href={`/incidents/new?t=${tenancy.id}`} fullWidth={false} size="sm">

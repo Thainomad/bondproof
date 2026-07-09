@@ -210,7 +210,7 @@ export default async function Home({
                 </h2>
                 {exitSession?.completed_at && <Badge tone="success">Complete</Badge>}
               </div>
-              <LinkButton href="/capture/exit/cleaning" variant="outline">
+              <LinkButton href={`/capture/exit/cleaning${tParam}`} variant="outline">
                 Pre-handover cleaning checklist
               </LinkButton>
               {exitSession?.completed_at ? (

@@ -58,3 +58,19 @@ export function FlagIcon({ className = 'h-4 w-4' }: IconProps) {
     </svg>
   )
 }
+
+export function ChevronLeftIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg {...base} className={className} aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  )
+}
+
+export function XIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg {...base} className={className} aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  )
+}

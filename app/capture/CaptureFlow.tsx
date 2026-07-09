@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
+import Link from 'next/link'
 import { ensureEvidenceItem, saveEvidenceItem, completeSession } from './actions'
 import Button from '@/components/ui/Button'
 import LinkButton from '@/components/ui/LinkButton'
 import { TextAreaField } from '@/components/ui/TextField'
-import { CameraIcon } from '@/components/ui/icons'
+import { CameraIcon, XIcon } from '@/components/ui/icons'
 
 type ChecklistItem = {
   id: string
@@ -181,6 +182,13 @@ export default function CaptureFlow({
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-5 p-6">
       <div className="flex items-center justify-between text-sm text-muted">
+        <Link
+          href={`/?t=${tenancyId}`}
+          aria-label="Exit capture"
+          className="transition-colors hover:text-foreground"
+        >
+          <XIcon className="h-5 w-5" />
+        </Link>
         <span>{ROOM_LABELS[currentItem.room] ?? currentItem.room}</span>
         <span>
           {index + 1} / {items.length}

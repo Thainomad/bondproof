@@ -21,7 +21,7 @@ export default async function EvidencePackPage({
   }
 
   return (
-    <PageContainer>
+    <PageContainer backHref={`/dispute?t=${tenancy.id}`} backLabel="Dispute">
       <h1 className="text-xl font-bold tracking-tight text-foreground">Evidence pack</h1>
       <Card className="flex flex-col gap-4">
         <p className="text-sm text-muted">
