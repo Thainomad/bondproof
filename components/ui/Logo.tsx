@@ -30,7 +30,7 @@ export default function Logo({
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <LogoMark className={markClassName} />
-      <span className={textClassName}>BondProof</span>
+      <span className={textClassName}>BondShield</span>
     </div>
   )
 }

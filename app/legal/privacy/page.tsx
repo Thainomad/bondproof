@@ -5,7 +5,7 @@ export default function PrivacyPage() {
       <p className="text-xs text-muted">Last updated: 8 July 2026</p>
 
       <p>
-        This policy explains what personal information BondProof collects,
+        This policy explains what personal information BondShield collects,
         why, and what rights you have over it, consistent with the
         Australian Privacy Principles under the Privacy Act 1988 (Cth).
       </p>

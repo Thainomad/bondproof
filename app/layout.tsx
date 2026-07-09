@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BondProof",
+  title: "BondShield",
   description: "Document your rental condition and win your bond back.",
 };
 

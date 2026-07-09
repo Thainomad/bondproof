@@ -133,7 +133,7 @@ export function renderEvidencePackHtml({
   <div class="cover">
     <h1>Evidence Pack</h1>
     <p class="subtitle">${escapeHtml(tenancyAddress)}</p>
-    <p class="subtitle">Generated ${formatDate(generatedAt.toISOString())} &middot; BondProof</p>
+    <p class="subtitle">Generated ${formatDate(generatedAt.toISOString())} &middot; BondShield</p>
   </div>
   <div class="content">
     ${itemSections}

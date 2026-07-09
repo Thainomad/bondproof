@@ -39,7 +39,7 @@ export async function generateEvidencePack(tenancyId: string) {
     .eq('tenancy_id', tenancyId)
 
   const chronology: ChronologyEvent[] = [
-    { date: tenancy.created_at, label: 'Tenancy created in BondProof' },
+    { date: tenancy.created_at, label: 'Tenancy created in BondShield' },
   ]
   for (const s of sessions ?? []) {
     if (s.started_at) {
