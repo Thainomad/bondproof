@@ -5,6 +5,7 @@ import { ensureEvidenceItem, saveEvidenceItem, completeSession } from './actions
 import Button from '@/components/ui/Button'
 import LinkButton from '@/components/ui/LinkButton'
 import { TextAreaField } from '@/components/ui/TextField'
+import { CameraIcon } from '@/components/ui/icons'
 
 type ChecklistItem = {
   id: string
@@ -213,8 +214,9 @@ export default function CaptureFlow({
         type="button"
         onClick={() => fileInputRef.current?.click()}
         disabled={uploading}
-        className="rounded-lg border-2 border-dashed border-border px-4 py-6 text-base font-medium text-foreground transition-colors hover:bg-slate-50 disabled:opacity-50"
+        className="flex flex-col items-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-6 text-base font-medium text-foreground transition-colors hover:bg-slate-50 disabled:opacity-50"
       >
+        <CameraIcon className="h-6 w-6 text-muted" />
         {uploading
           ? 'Uploading...'
           : photoCount > 0

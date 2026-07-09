@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { sendMagicLink } from './actions'
 import Button from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
+import { LogoMark } from '@/components/ui/Logo'
 
 export default function LoginPage() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
@@ -38,7 +39,10 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
-      <div className="text-center">
+      <div className="flex flex-col items-center text-center">
+        <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+          <LogoMark className="h-8 w-8 text-primary" />
+        </div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">BondProof</h1>
         <p className="mt-1 text-sm text-muted">Document your rental. Win your bond back.</p>
       </div>
