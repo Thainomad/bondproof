@@ -24,9 +24,9 @@ export async function sendDeadlineReminderEmail({
   })
 
   await resend.emails.send({
-    from: process.env.EMAIL_FROM ?? 'BondShield <onboarding@resend.dev>',
+    from: process.env.EMAIL_FROM ?? 'StayProof <onboarding@resend.dev>',
     to,
-    subject: `BondShield reminder: ${label}`,
+    subject: `StayProof reminder: ${label}`,
     text: `Reminder for ${tenancyAddress}:\n\n${label}\n\nDue: ${dueDate}\n\nThis is document preparation assistance, not legal advice.`,
   })
 }

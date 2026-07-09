@@ -5,6 +5,7 @@ export type Tenancy = {
   user_id: string
   address: string
   state: string
+  stay_type: 'long_term' | 'short_term'
   lease_start: string | null
   lease_end: string | null
   agent_name: string | null

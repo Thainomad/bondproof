@@ -10,9 +10,10 @@ import Card from '@/components/ui/Card'
 export default async function NcatPage() {
   const tenancy = await getCurrentTenancy()
   if (!tenancy) redirect('/')
+  if (tenancy.stay_type === 'short_term') redirect('/dispute')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
-    return <PaywallScreen tenancyId={tenancy.id} />
+    return <PaywallScreen tenancyId={tenancy.id} stayType={tenancy.stay_type} />
   }
 
   const current = await getCurrentDispute(tenancy.id)

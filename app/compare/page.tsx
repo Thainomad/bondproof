@@ -27,7 +27,7 @@ export default async function ComparePage() {
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
-    return <PaywallScreen tenancyId={tenancy.id} />
+    return <PaywallScreen tenancyId={tenancy.id} stayType={tenancy.stay_type} />
   }
 
   const rows = await getComparisonRows(tenancy.id)

@@ -34,10 +34,13 @@ export async function generateResponseLetter(tenancyId: string) {
   }
 
   const comparisonRows = await getComparisonRows(tenancyId)
-  const fairWearAndTearRule = await getRule<{
-    principle: string
-    categories: unknown[]
-  }>('NSW', 'fair_wear_and_tear_guidance')
+  const fairWearAndTearRule =
+    tenancy.stay_type === 'long_term'
+      ? await getRule<{ principle: string; categories: unknown[] }>(
+          'NSW',
+          'fair_wear_and_tear_guidance'
+        )
+      : null
 
   let letterText: string
   try {

@@ -30,7 +30,7 @@ export async function createDisputeKitCheckout(tenancyId: string) {
           currency: 'aud',
           unit_amount: DISPUTE_KIT_PRICE_CENTS,
           product_data: {
-            name: 'BondShield Dispute Kit',
+            name: 'StayProof Dispute Kit',
             description: `Exit comparison, evidence pack, response letter, and NCAT pre-fill for ${tenancy.address}`,
           },
         },

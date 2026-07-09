@@ -12,7 +12,7 @@ export default async function EvidencePackPage() {
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
-    return <PaywallScreen tenancyId={tenancy.id} />
+    return <PaywallScreen tenancyId={tenancy.id} stayType={tenancy.stay_type} />
   }
 
   return (

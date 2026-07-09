@@ -178,7 +178,7 @@ export function renderEntryReportHtml({
 <body>
   <div class="cover">
     <h1>${title}</h1>
-    <p class="subtitle">Generated ${formatDate(generatedAt.toISOString())} &middot; BondShield</p>
+    <p class="subtitle">Generated ${formatDate(generatedAt.toISOString())} &middot; StayProof</p>
     <dl>
       <dt>Property</dt><dd>${escapeHtml(tenancy.address)}</dd>
       <dt>State</dt><dd>${escapeHtml(tenancy.state)}</dd>

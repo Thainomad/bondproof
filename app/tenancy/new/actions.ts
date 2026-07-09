@@ -14,6 +14,7 @@ export async function createTenancy(formData: FormData) {
     redirect('/login')
   }
 
+  const stayType = formData.get('stay_type') === 'short_term' ? 'short_term' : 'long_term'
   const address = (formData.get('address') as string)?.trim()
   const leaseStart = formData.get('lease_start') as string
   const leaseEnd = formData.get('lease_end') as string
@@ -22,26 +23,33 @@ export async function createTenancy(formData: FormData) {
   const bondAmount = formData.get('bond_amount') as string
   const rboNumber = (formData.get('rbo_number') as string)?.trim()
 
-  if (!address || !leaseStart || !bondAmount) {
-    return { error: 'Address, lease start date, and bond amount are required.' }
+  if (!address || !leaseStart) {
+    return { error: 'Address and start date are required.' }
   }
 
-  const bondAmountCents = Math.round(parseFloat(bondAmount) * 100)
-  if (!Number.isFinite(bondAmountCents) || bondAmountCents <= 0) {
-    return { error: 'Enter a valid bond amount.' }
+  let bondAmountCents: number | null = null
+  if (stayType === 'long_term') {
+    if (!bondAmount) {
+      return { error: 'Bond amount is required.' }
+    }
+    bondAmountCents = Math.round(parseFloat(bondAmount) * 100)
+    if (!Number.isFinite(bondAmountCents) || bondAmountCents <= 0) {
+      return { error: 'Enter a valid bond amount.' }
+    }
   }
 
   const { data: tenancy, error } = await supabase
     .from('tenancies')
     .insert({
       user_id: user.id,
+      stay_type: stayType,
       address,
       lease_start: leaseStart,
       lease_end: leaseEnd || null,
       agent_name: agentName || null,
       agent_email: agentEmail || null,
       bond_amount_cents: bondAmountCents,
-      rbo_number: rboNumber || null,
+      rbo_number: stayType === 'long_term' ? rboNumber || null : null,
     })
     .select('id')
     .single()
@@ -53,7 +61,9 @@ export async function createTenancy(formData: FormData) {
     return { error: error?.message ?? 'Failed to create tenancy' }
   }
 
-  await createConditionReportDeadline(tenancy.id, leaseStart)
+  if (stayType === 'long_term') {
+    await createConditionReportDeadline(tenancy.id, leaseStart)
+  }
 
   redirect('/')
 }

@@ -15,10 +15,11 @@ export default async function DisputePage() {
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
-    return <PaywallScreen tenancyId={tenancy.id} />
+    return <PaywallScreen tenancyId={tenancy.id} stayType={tenancy.stay_type} />
   }
 
   const current = await getCurrentDispute(tenancy.id)
+  const isShortTerm = tenancy.stay_type === 'short_term'
 
   return (
     <PageContainer>
@@ -27,8 +28,9 @@ export default async function DisputePage() {
       {!current ? (
         <Card className="flex flex-col gap-4">
           <p className="text-sm text-muted">
-            Enter the deductions the agent or landlord has claimed against your bond, and
-            we&apos;ll help you dispute the ones that aren&apos;t fair.
+            {isShortTerm
+              ? "Enter the costs the host or platform has claimed for damage, and we'll help you dispute the ones that aren't fair."
+              : "Enter the deductions the agent or landlord has claimed against your bond, and we'll help you dispute the ones that aren't fair."}
           </p>
           <StartDisputeButton tenancyId={tenancy.id} />
         </Card>
@@ -48,10 +50,12 @@ export default async function DisputePage() {
               <LinkButton href="/dispute/evidence-pack" variant="outline">
                 Generate evidence pack
               </LinkButton>
-              <LinkButton href="/dispute/letter" variant="outline">
+              <LinkButton href="/dispute/letter" variant={isShortTerm ? 'primary' : 'outline'}>
                 Generate response letter
               </LinkButton>
-              <LinkButton href="/dispute/ncat">Generate NCAT application</LinkButton>
+              {!isShortTerm && (
+                <LinkButton href="/dispute/ncat">Generate NCAT application</LinkButton>
+              )}
             </div>
           )}
         </div>

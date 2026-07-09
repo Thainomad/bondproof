@@ -88,6 +88,8 @@ export default async function Home() {
           ? 'danger'
           : 'neutral'
 
+  const isShortTerm = tenancy?.stay_type === 'short_term'
+
   return (
     <PageContainer>
       <div className="flex items-center justify-between">
@@ -112,19 +114,21 @@ export default async function Home() {
               <Badge tone={statusTone as never}>{tenancy.status}</Badge>
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              {tenancy.bond_amount_cents != null && (
+                <div>
+                  <dt className="text-muted">Bond</dt>
+                  <dd className="font-medium text-foreground">
+                    ${(tenancy.bond_amount_cents / 100).toFixed(2)}
+                  </dd>
+                </div>
+              )}
               <div>
-                <dt className="text-muted">Bond</dt>
-                <dd className="font-medium text-foreground">
-                  ${((tenancy.bond_amount_cents ?? 0) / 100).toFixed(2)}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-muted">Lease start</dt>
+                <dt className="text-muted">{isShortTerm ? 'Check-in' : 'Lease start'}</dt>
                 <dd className="font-medium text-foreground">{tenancy.lease_start ?? 'Not set'}</dd>
               </div>
               {tenancy.lease_end && (
                 <div>
-                  <dt className="text-muted">Lease end</dt>
+                  <dt className="text-muted">{isShortTerm ? 'Check-out' : 'Lease end'}</dt>
                   <dd className="font-medium text-foreground">{tenancy.lease_end}</dd>
                 </div>
               )}
@@ -135,7 +139,7 @@ export default async function Home() {
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <HomeIcon className="h-4 w-4 text-primary" />
-                Move-in
+                {isShortTerm ? 'Arrival' : 'Move-in'}
               </h2>
               {entrySession?.completed_at && <Badge tone="success">Complete</Badge>}
             </div>
@@ -158,7 +162,7 @@ export default async function Home() {
               <div className="flex items-center justify-between">
                 <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <BoxIcon className="h-4 w-4 text-primary" />
-                  Move-out
+                  {isShortTerm ? 'Departure' : 'Move-out'}
                 </h2>
                 {exitSession?.completed_at && <Badge tone="success">Complete</Badge>}
               </div>
@@ -179,7 +183,11 @@ export default async function Home() {
                 </>
               ) : (
                 <LinkButton href="/capture/exit">
-                  {exitSession ? 'Resume exit capture' : 'Moving out? Start exit capture'}
+                  {exitSession
+                    ? 'Resume exit capture'
+                    : isShortTerm
+                      ? 'Checking out? Start departure capture'
+                      : 'Moving out? Start exit capture'}
                 </LinkButton>
               )}
             </Card>
@@ -192,7 +200,9 @@ export default async function Home() {
                 Dispute
               </h2>
               <p className="text-sm text-muted">
-                Agent claiming a deduction? We&apos;ll help you dispute it.
+                {isShortTerm
+                  ? "Host or platform claiming a damage cost? We'll help you dispute it."
+                  : "Agent claiming a deduction? We'll help you dispute it."}
               </p>
               <LinkButton href="/dispute">Start a dispute</LinkButton>
             </Card>
@@ -200,8 +210,8 @@ export default async function Home() {
         </div>
       ) : (
         <Card className="flex flex-col gap-3 text-center">
-          <p className="text-muted">No tenancy set up yet.</p>
-          <LinkButton href="/tenancy/new">Set up your tenancy</LinkButton>
+          <p className="text-muted">Nothing set up yet.</p>
+          <LinkButton href="/tenancy/new">Get started</LinkButton>
         </Card>
       )}
     </PageContainer>
