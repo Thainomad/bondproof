@@ -15,7 +15,11 @@ export async function sendMagicLink(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    const message =
+      error.message && error.message !== '{}'
+        ? error.message
+        : "Couldn't send the sign-in email right now. If you've set a password for this account, try signing in with that instead."
+    return { error: message }
   }
 
   return { success: true }
