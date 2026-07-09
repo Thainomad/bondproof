@@ -92,11 +92,16 @@ export default async function Home() {
     <PageContainer>
       <div className="flex items-center justify-between">
         <Logo />
-        <form action={signOut}>
-          <Button type="submit" variant="ghost" size="sm" fullWidth={false}>
-            Sign out
-          </Button>
-        </form>
+        <div className="flex items-center gap-1">
+          <LinkButton href="/account" variant="ghost" size="sm" fullWidth={false}>
+            Account
+          </LinkButton>
+          <form action={signOut}>
+            <Button type="submit" variant="ghost" size="sm" fullWidth={false}>
+              Sign out
+            </Button>
+          </form>
+        </div>
       </div>
 
       {tenancy ? (

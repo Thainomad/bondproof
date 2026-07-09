@@ -1,18 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { sendMagicLink } from './actions'
+import { sendMagicLink, signInWithPassword } from './actions'
 import Button from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
 import { LogoMark } from '@/components/ui/Logo'
 
 export default function LoginPage() {
+  const [mode, setMode] = useState<'magic' | 'password'>('magic')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
     'idle'
   )
   const [errorMessage, setErrorMessage] = useState('')
 
-  async function handleSubmit(formData: FormData) {
+  async function handleMagicLink(formData: FormData) {
     setStatus('sending')
     const result = await sendMagicLink(formData)
     if (result?.error) {
@@ -20,6 +21,16 @@ export default function LoginPage() {
       setStatus('error')
     } else {
       setStatus('sent')
+    }
+  }
+
+  async function handlePassword(formData: FormData) {
+    setStatus('sending')
+    setErrorMessage('')
+    const result = await signInWithPassword(formData)
+    if (result?.error) {
+      setErrorMessage(result.error)
+      setStatus('error')
     }
   }
 
@@ -46,21 +57,70 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">BondProof</h1>
         <p className="mt-1 text-sm text-muted">Document your rental. Win your bond back.</p>
       </div>
-      <form action={handleSubmit} className="flex w-full max-w-sm flex-col gap-4">
-        <TextField
-          label="Email"
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          placeholder="you@example.com"
-        />
-        <Button type="submit" size="lg" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Sending...' : 'Send magic link'}
-        </Button>
-        {status === 'error' && <p className="text-sm text-danger">{errorMessage}</p>}
-      </form>
+
+      {mode === 'magic' ? (
+        <form action={handleMagicLink} className="flex w-full max-w-sm flex-col gap-4">
+          <TextField
+            label="Email"
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@example.com"
+          />
+          <Button type="submit" size="lg" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending...' : 'Send magic link'}
+          </Button>
+          {status === 'error' && <p className="text-sm text-danger">{errorMessage}</p>}
+          <button
+            type="button"
+            onClick={() => {
+              setMode('password')
+              setStatus('idle')
+              setErrorMessage('')
+            }}
+            className="text-sm text-muted underline"
+          >
+            Sign in with a password instead
+          </button>
+        </form>
+      ) : (
+        <form action={handlePassword} className="flex w-full max-w-sm flex-col gap-4">
+          <TextField
+            label="Email"
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@example.com"
+          />
+          <TextField
+            label="Password"
+            id="password"
+            name="password"
+            type="password"
+            required
+            autoComplete="current-password"
+          />
+          <Button type="submit" size="lg" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Signing in...' : 'Sign in'}
+          </Button>
+          {status === 'error' && <p className="text-sm text-danger">{errorMessage}</p>}
+          <button
+            type="button"
+            onClick={() => {
+              setMode('magic')
+              setStatus('idle')
+              setErrorMessage('')
+            }}
+            className="text-sm text-muted underline"
+          >
+            Use a magic link instead
+          </button>
+        </form>
+      )}
     </main>
   )
 }
