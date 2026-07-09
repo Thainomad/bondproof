@@ -39,7 +39,7 @@ export default function NewTenancyPage() {
               <button
                 type="button"
                 onClick={() => setStayType('long_term')}
-                className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
+                className={`rounded-lg border px-3 py-3 text-sm font-medium transition-all active:scale-[0.97] ${
                   stayType === 'long_term'
                     ? 'border-primary bg-primary/5 text-primary'
                     : 'border-border text-muted hover:bg-slate-50'
@@ -50,7 +50,7 @@ export default function NewTenancyPage() {
               <button
                 type="button"
                 onClick={() => setStayType('short_term')}
-                className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
+                className={`rounded-lg border px-3 py-3 text-sm font-medium transition-all active:scale-[0.97] ${
                   stayType === 'short_term'
                     ? 'border-primary bg-primary/5 text-primary'
                     : 'border-border text-muted hover:bg-slate-50'
@@ -102,7 +102,7 @@ export default function NewTenancyPage() {
 
           {error && <p className="text-sm text-danger">{error}</p>}
 
-          <Button type="submit" disabled={submitting} className="mt-2">
+          <Button type="submit" loading={submitting} className="mt-2">
             {submitting ? 'Saving...' : isShortTerm ? 'Create stay' : 'Create tenancy'}
           </Button>
         </form>

@@ -75,7 +75,7 @@ export default function EditTenancyForm({ tenancy }: { tenancy: Tenancy }) {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="mt-2 flex items-center gap-3">
-        <Button type="submit" disabled={submitting}>
+        <Button type="submit" loading={submitting}>
           {submitting ? 'Saving...' : 'Save changes'}
         </Button>
         <Link

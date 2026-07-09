@@ -24,7 +24,7 @@ export default function StartDisputeButton({ tenancyId }: { tenancyId: string })
 
   return (
     <div className="flex flex-col gap-2">
-      <Button type="button" onClick={handleClick} disabled={loading}>
+      <Button type="button" onClick={handleClick} loading={loading}>
         {loading ? 'Starting...' : 'Start a dispute'}
       </Button>
       {error && <p className="text-sm text-danger">{error}</p>}

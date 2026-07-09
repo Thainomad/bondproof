@@ -17,7 +17,7 @@ export default async function CheckoutSuccessPage({
 
   if (session.payment_status !== 'paid') {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+      <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
         <h1 className="text-2xl font-semibold text-foreground">Payment not confirmed</h1>
         <p className="max-w-xs text-muted">
           We couldn&apos;t confirm this payment. If you were charged, contact support.
@@ -32,7 +32,7 @@ export default async function CheckoutSuccessPage({
   await recordPaymentFromSession(session)
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+    <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
       <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-2xl">
         ✓
       </div>

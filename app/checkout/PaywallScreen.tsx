@@ -13,7 +13,7 @@ export default function PaywallScreen({
   const isShortTerm = stayType === 'short_term'
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
+    <main className="animate-page-in mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 p-6 text-center">
       <div className="w-full max-w-sm text-left">
         <BackLink href={`/?t=${tenancyId}`} label="Dashboard" />
       </div>

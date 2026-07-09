@@ -29,7 +29,7 @@ export default function SignUpPage() {
 
   if (status === 'needsConfirmation') {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-3 p-6 text-center">
+      <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-3 p-6 text-center">
         <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-2xl">
           ✓
         </div>
@@ -42,7 +42,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
+    <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-8 p-6">
       <div className="flex flex-col items-center text-center">
         <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
           <LogoMark className="h-8 w-8 text-primary" />
@@ -103,7 +103,7 @@ export default function SignUpPage() {
           autoComplete="new-password"
           minLength={8}
         />
-        <Button type="submit" size="lg" disabled={status === 'submitting'}>
+        <Button type="submit" size="lg" loading={status === 'submitting'}>
           {status === 'submitting' ? 'Creating account...' : 'Create account'}
         </Button>
         {status === 'error' && <p className="text-sm text-danger">{error}</p>}

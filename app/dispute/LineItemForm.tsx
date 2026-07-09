@@ -36,7 +36,7 @@ export default function LineItemForm({ disputeId }: { disputeId: string }) {
         />
         <TextField name="amount" type="number" step="0.01" placeholder="Amount claimed ($)" required />
         {error && <p className="text-sm text-danger">{error}</p>}
-        <Button type="submit" size="sm" disabled={submitting}>
+        <Button type="submit" size="sm" loading={submitting}>
           {submitting ? 'Adding...' : 'Add line item'}
         </Button>
       </form>

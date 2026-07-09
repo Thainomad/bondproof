@@ -14,7 +14,7 @@ export default async function ConfirmPage({
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
+    <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
       <h1 className="text-2xl font-semibold text-foreground">Finish signing in</h1>
       <p className="text-muted">Tap the button below to confirm it&apos;s you.</p>
       <form action={confirmSignIn} className="w-full max-w-xs">

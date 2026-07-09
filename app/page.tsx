@@ -26,7 +26,7 @@ export default async function Home({
 
   if (!user) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+      <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
         <Logo markClassName="h-9 w-9 text-primary" textClassName="text-2xl font-bold tracking-tight text-foreground" />
         <LinkButton href="/login" fullWidth={false} size="lg" className="px-8">
           Sign in

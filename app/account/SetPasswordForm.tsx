@@ -45,7 +45,7 @@ export default function SetPasswordForm() {
           Password set. Anyone with this email and password can now sign in to this account.
         </p>
       )}
-      <Button type="submit" disabled={status === 'saving'}>
+      <Button type="submit" loading={status === 'saving'}>
         {status === 'saving' ? 'Saving...' : 'Set password'}
       </Button>
     </form>

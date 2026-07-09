@@ -38,7 +38,7 @@ export default function GenerateReportButton({
           Download {label} PDF
         </a>
       )}
-      <Button type="button" onClick={handleGenerate} disabled={generating}>
+      <Button type="button" onClick={handleGenerate} loading={generating}>
         {generating ? 'Generating...' : documentId ? 'Regenerate report' : `Generate ${label}`}
       </Button>
       {error && <p className="text-sm text-danger">{error}</p>}

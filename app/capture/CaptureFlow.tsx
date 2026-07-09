@@ -6,7 +6,7 @@ import { ensureEvidenceItem, saveEvidenceItem, completeSession } from './actions
 import Button from '@/components/ui/Button'
 import LinkButton from '@/components/ui/LinkButton'
 import { TextAreaField } from '@/components/ui/TextField'
-import { CameraIcon, XIcon } from '@/components/ui/icons'
+import { CameraIcon, XIcon, CheckIcon, SpinnerIcon } from '@/components/ui/icons'
 
 type ChecklistItem = {
   id: string
@@ -158,7 +158,7 @@ export default function CaptureFlow({
 
   if (isDone) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+      <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
         <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-2xl">
           ✓
         </div>
@@ -180,7 +180,7 @@ export default function CaptureFlow({
   const canAdvance = photoCount > 0 && rating !== null
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-5 p-6">
+    <main className="animate-page-in mx-auto flex min-h-screen max-w-md flex-col gap-5 p-6">
       <div className="flex items-center justify-between text-sm text-muted">
         <Link
           href={`/?t=${tenancyId}`}
@@ -201,74 +201,95 @@ export default function CaptureFlow({
         />
       </div>
 
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">{currentItem.label}</h1>
-        {currentItem.guidance && <p className="mt-1 text-muted">{currentItem.guidance}</p>}
-        {currentItem.high_claim_flag && (
-          <p className="mt-2 text-sm font-medium text-warning">
-            High-claim item — add at least {currentItem.min_photos} photo
-            {currentItem.min_photos > 1 ? 's' : ''}.
-          </p>
-        )}
+      <div key={index} className="animate-fade-in flex flex-col gap-5">
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">{currentItem.label}</h1>
+          {currentItem.guidance && <p className="mt-1 text-muted">{currentItem.guidance}</p>}
+          {currentItem.high_claim_flag && (
+            <p className="mt-2 text-sm font-medium text-warning">
+              High-claim item — add at least {currentItem.min_photos} photo
+              {currentItem.min_photos > 1 ? 's' : ''}.
+            </p>
+          )}
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={handlePhotoSelected}
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          className={`flex flex-col items-center gap-2 rounded-lg border-2 border-dashed px-4 py-6 text-base font-medium transition-all active:scale-[0.98] disabled:opacity-50 ${
+            photoCount > 0
+              ? 'border-success/40 bg-success-bg text-success'
+              : 'border-border text-foreground hover:bg-slate-50'
+          }`}
+        >
+          {uploading ? (
+            <SpinnerIcon className="h-6 w-6 animate-spin text-muted" />
+          ) : (
+            <CameraIcon className={`h-6 w-6 ${photoCount > 0 ? 'text-success' : 'text-muted'}`} />
+          )}
+          {uploading
+            ? 'Uploading...'
+            : photoCount > 0
+              ? `Add another photo (${photoCount} added)`
+              : 'Take photo'}
+        </button>
+
+        <div className="grid grid-cols-3 gap-2">
+          {(['good', 'fair', 'damaged'] as const).map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setRating(r)}
+              className={`relative rounded-lg border px-3 py-4 text-base font-medium capitalize transition-all active:scale-[0.97] ${
+                rating === r
+                  ? RATING_STYLES[r].active
+                  : 'border-border text-muted hover:bg-slate-50'
+              }`}
+            >
+              {rating === r && (
+                <CheckIcon className="absolute right-1.5 top-1.5 h-3.5 w-3.5" />
+              )}
+              {r}
+            </button>
+          ))}
+        </div>
+
+        <TextAreaField
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Optional note"
+          rows={2}
+        />
+
+        {error && <p className="text-sm text-danger">{error}</p>}
+
+        <Button
+          type="button"
+          size="lg"
+          onClick={() => handleNext(false)}
+          disabled={!canAdvance}
+          loading={saving}
+        >
+          {saving ? 'Saving...' : 'Next'}
+        </Button>
+        <button
+          type="button"
+          onClick={() => handleNext(true)}
+          disabled={saving}
+          className="text-sm text-muted underline transition-colors hover:text-foreground disabled:opacity-50"
+        >
+          Not applicable / skip
+        </button>
       </div>
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        className="hidden"
-        onChange={handlePhotoSelected}
-      />
-      <button
-        type="button"
-        onClick={() => fileInputRef.current?.click()}
-        disabled={uploading}
-        className="flex flex-col items-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-6 text-base font-medium text-foreground transition-colors hover:bg-slate-50 disabled:opacity-50"
-      >
-        <CameraIcon className="h-6 w-6 text-muted" />
-        {uploading
-          ? 'Uploading...'
-          : photoCount > 0
-            ? `Add another photo (${photoCount} added)`
-            : 'Take photo'}
-      </button>
-
-      <div className="grid grid-cols-3 gap-2">
-        {(['good', 'fair', 'damaged'] as const).map((r) => (
-          <button
-            key={r}
-            type="button"
-            onClick={() => setRating(r)}
-            className={`rounded-lg border px-3 py-4 text-base font-medium capitalize transition-colors ${
-              rating === r ? RATING_STYLES[r].active : 'border-border text-muted hover:bg-slate-50'
-            }`}
-          >
-            {r}
-          </button>
-        ))}
-      </div>
-
-      <TextAreaField
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        placeholder="Optional note"
-        rows={2}
-      />
-
-      {error && <p className="text-sm text-danger">{error}</p>}
-
-      <Button type="button" size="lg" onClick={() => handleNext(false)} disabled={!canAdvance || saving}>
-        {saving ? 'Saving...' : 'Next'}
-      </Button>
-      <button
-        type="button"
-        onClick={() => handleNext(true)}
-        disabled={saving}
-        className="text-sm text-muted underline disabled:opacity-50"
-      >
-        Not applicable / skip
-      </button>
     </main>
   )
 }

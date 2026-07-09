@@ -45,7 +45,7 @@ export default function NcatForm({ tenancyId }: { tenancyId: string }) {
         required
       />
       {error && <p className="text-sm text-danger">{error}</p>}
-      <Button type="submit" disabled={submitting}>
+      <Button type="submit" loading={submitting}>
         {submitting ? 'Generating...' : 'Generate NCAT application'}
       </Button>
     </form>
