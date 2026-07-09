@@ -74,3 +74,11 @@ export function XIcon({ className = 'h-4 w-4' }: IconProps) {
     </svg>
   )
 }
+
+export function SparkleIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg {...base} className={className} aria-hidden="true">
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" />
+    </svg>
+  )
+}
