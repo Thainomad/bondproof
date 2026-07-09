@@ -61,8 +61,8 @@ export default function NewTenancyPage() {
             </div>
             <p className="mt-1.5 text-xs text-muted">
               {isShortTerm
-                ? 'For Airbnb, Booking.com, or any short-term booking.'
-                : 'For a NSW residential lease with a bond.'}
+                ? 'For Airbnb, Booking.com, or any short-term booking — so you have proof of the property’s condition if a host ever claims damage.'
+                : 'For a NSW residential lease with a bond — so you have proof of the property’s condition if your agent ever disputes it.'}
             </p>
           </div>
 

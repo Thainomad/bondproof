@@ -13,6 +13,7 @@ import Logo from '@/components/ui/Logo'
 import { HomeIcon, BoxIcon, ScaleIcon, FlagIcon } from '@/components/ui/icons'
 import TenancySwitcher from './TenancySwitcher'
 import { getIncidentCount } from '@/lib/incidents'
+import ValueProps from '@/components/ValueProps'
 
 export default async function Home({
   searchParams,
@@ -26,11 +27,29 @@ export default async function Home({
 
   if (!user) {
     return (
-      <main className="animate-page-in flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+      <main className="animate-page-in mx-auto flex min-h-screen w-full max-w-sm flex-col items-center justify-center gap-6 p-6 text-center">
         <Logo markClassName="h-9 w-9 text-primary" textClassName="text-2xl font-bold tracking-tight text-foreground" />
-        <LinkButton href="/login" fullWidth={false} size="lg" className="px-8">
-          Sign in
-        </LinkButton>
+        <div>
+          <h1 className="text-xl font-semibold text-foreground">
+            Proof for every rental, every stay
+          </h1>
+          <p className="mt-2 text-sm text-muted">
+            Whether it&apos;s a 12-month lease or a weekend on Airbnb or Booking.com,
+            document the property&apos;s condition going in and coming out — so if a bond
+            or damage claim ever gets disputed, you&apos;ve already got the evidence.
+          </p>
+        </div>
+
+        <ValueProps />
+
+        <div className="flex w-full flex-col gap-3">
+          <LinkButton href="/login" size="lg">
+            Sign in
+          </LinkButton>
+          <LinkButton href="/signup" variant="outline" size="lg">
+            Create an account
+          </LinkButton>
+        </div>
       </main>
     )
   }
@@ -257,10 +276,16 @@ export default async function Home({
           </LinkButton>
         </div>
       ) : (
-        <Card className="flex flex-col gap-3 text-center">
-          <p className="text-muted">Nothing set up yet.</p>
-          <LinkButton href="/tenancy/new">Get started</LinkButton>
-        </Card>
+        <>
+          <Card className="flex flex-col gap-3 text-center">
+            <p className="text-muted">
+              Nothing set up yet. Add a rental lease or a short-term stay to start
+              documenting its condition — before it becomes your word against theirs.
+            </p>
+            <LinkButton href="/tenancy/new">Get started</LinkButton>
+          </Card>
+          <ValueProps />
+        </>
       )}
     </PageContainer>
   )
