@@ -43,11 +43,13 @@ export default function CaptureFlow({
   items,
   existingEvidence,
   sessionType = 'entry',
+  tenancyId,
 }: {
   sessionId: string
   items: ChecklistItem[]
   existingEvidence: ExistingEvidence[]
   sessionType?: 'entry' | 'exit'
+  tenancyId: string
 }) {
   const evidenceByChecklistId = useMemo(() => {
     const map = new Map<string, ExistingEvidence>()
@@ -167,7 +169,7 @@ export default function CaptureFlow({
             ? 'Nice work — your move-in condition is documented.'
             : 'Nice work — your move-out condition is documented.'}
         </p>
-        <LinkButton href="/" fullWidth={false} className="mt-2 px-8">
+        <LinkButton href={`/?t=${tenancyId}`} fullWidth={false} className="mt-2 px-8">
           Back to dashboard
         </LinkButton>
       </main>

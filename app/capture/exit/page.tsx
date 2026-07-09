@@ -4,8 +4,13 @@ import { getCurrentTenancy } from '@/lib/tenancy'
 import { getOrCreateCaptureSession } from '@/lib/capture-session'
 import CaptureFlow from '../CaptureFlow'
 
-export default async function ExitCapturePage() {
-  const tenancy = await getCurrentTenancy()
+export default async function ExitCapturePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+  const tenancy = await getCurrentTenancy(t)
   if (!tenancy) redirect('/')
 
   const supabase = await createClient()
@@ -28,6 +33,7 @@ export default async function ExitCapturePage() {
       items={data.items}
       existingEvidence={data.existingEvidence}
       sessionType="exit"
+      tenancyId={tenancy.id}
     />
   )
 }

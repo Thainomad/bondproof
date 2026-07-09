@@ -16,9 +16,30 @@ export type Tenancy = {
   created_at: string
 }
 
-// A free account has at most one non-closed tenancy at a time (enforced by
-// a partial unique index in the DB), so there's only ever one to fetch.
-export async function getCurrentTenancy(): Promise<Tenancy | null> {
+// An account can have several open stays at once (e.g. a long-term lease
+// plus a short-term Airbnb trip). Ordered most-recent-first so the newest
+// stay is the sensible default when no specific one is requested.
+export async function getTenancies(): Promise<Tenancy[]> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return []
+
+  const { data } = await supabase
+    .from('tenancies')
+    .select('*')
+    .neq('status', 'closed')
+    .order('created_at', { ascending: false })
+
+  return data ?? []
+}
+
+// Resolves a specific stay by id (falling back to the most recently
+// created open stay when no id is given, e.g. for pages reached without a
+// `?t=` query param).
+export async function getCurrentTenancy(tenancyId?: string): Promise<Tenancy | null> {
   const supabase = await createClient()
   const {
     data: { user },
@@ -26,10 +47,21 @@ export async function getCurrentTenancy(): Promise<Tenancy | null> {
 
   if (!user) return null
 
+  if (tenancyId) {
+    const { data } = await supabase
+      .from('tenancies')
+      .select('*')
+      .eq('id', tenancyId)
+      .maybeSingle()
+    return data
+  }
+
   const { data } = await supabase
     .from('tenancies')
     .select('*')
     .neq('status', 'closed')
+    .order('created_at', { ascending: false })
+    .limit(1)
     .maybeSingle()
 
   return data

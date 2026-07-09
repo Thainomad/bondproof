@@ -22,8 +22,13 @@ const RATING_TONE: Record<string, 'success' | 'warning' | 'danger'> = {
   damaged: 'danger',
 }
 
-export default async function ComparePage() {
-  const tenancy = await getCurrentTenancy()
+export default async function ComparePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+  const tenancy = await getCurrentTenancy(t)
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {

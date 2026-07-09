@@ -7,8 +7,13 @@ import { generateEvidencePack } from './actions'
 import PageContainer from '@/components/ui/PageContainer'
 import Card from '@/components/ui/Card'
 
-export default async function EvidencePackPage() {
-  const tenancy = await getCurrentTenancy()
+export default async function EvidencePackPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+  const tenancy = await getCurrentTenancy(t)
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {

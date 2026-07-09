@@ -12,6 +12,8 @@ export default async function CheckoutSuccessPage({
   if (!session_id) redirect('/')
 
   const session = await stripe.checkout.sessions.retrieve(session_id)
+  const tenancyId = session.metadata?.tenancy_id
+  const dashboardHref = tenancyId ? `/?t=${tenancyId}` : '/'
 
   if (session.payment_status !== 'paid') {
     return (
@@ -20,7 +22,7 @@ export default async function CheckoutSuccessPage({
         <p className="max-w-xs text-muted">
           We couldn&apos;t confirm this payment. If you were charged, contact support.
         </p>
-        <LinkButton href="/" fullWidth={false} className="px-8">
+        <LinkButton href={dashboardHref} fullWidth={false} className="px-8">
           Back to dashboard
         </LinkButton>
       </main>
@@ -39,7 +41,7 @@ export default async function CheckoutSuccessPage({
         You now have full access to the exit comparison, evidence pack, response letter, and NCAT
         pre-fill for this tenancy.
       </p>
-      <LinkButton href="/" fullWidth={false} className="px-8">
+      <LinkButton href={dashboardHref} fullWidth={false} className="px-8">
         Back to dashboard
       </LinkButton>
     </main>

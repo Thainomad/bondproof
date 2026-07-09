@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { getCurrentTenancy } from '@/lib/tenancy'
+import { getTenancies } from '@/lib/tenancy'
 import { signOut } from './login/sign-out'
 import GenerateReportButton from './reports/GenerateReportButton'
 import { generateEntryReport } from './reports/entry/actions'
@@ -10,9 +10,15 @@ import Card from '@/components/ui/Card'
 import Badge, { type BadgeTone } from '@/components/ui/Badge'
 import PageContainer from '@/components/ui/PageContainer'
 import Logo from '@/components/ui/Logo'
-import { HomeIcon, BoxIcon, ScaleIcon } from '@/components/ui/icons'
+import { HomeIcon, BoxIcon, ScaleIcon, FlagIcon } from '@/components/ui/icons'
+import TenancySwitcher from './TenancySwitcher'
+import { getIncidentCount } from '@/lib/incidents'
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
   const supabase = await createClient()
   const {
     data: { user },
@@ -29,7 +35,9 @@ export default async function Home() {
     )
   }
 
-  const tenancy = await getCurrentTenancy()
+  const { t } = await searchParams
+  const tenancies = await getTenancies()
+  const tenancy = (t ? tenancies.find((x) => x.id === t) : undefined) ?? tenancies[0] ?? null
 
   let entrySession: { id: string; completed_at: string | null } | null = null
   if (tenancy) {
@@ -79,6 +87,8 @@ export default async function Home() {
     latestExitReportId = exitReport.data?.id ?? null
   }
 
+  const incidentCount = tenancy ? await getIncidentCount(tenancy.id) : 0
+
   const statusTone: BadgeTone =
     tenancy?.status === 'active'
       ? 'success'
@@ -89,6 +99,7 @@ export default async function Home() {
           : 'neutral'
 
   const isShortTerm = tenancy?.stay_type === 'short_term'
+  const tParam = tenancy ? `?t=${tenancy.id}` : ''
 
   return (
     <PageContainer>
@@ -108,6 +119,10 @@ export default async function Home() {
 
       {tenancy ? (
         <div className="flex flex-col gap-4">
+          {tenancies.length > 1 && (
+            <TenancySwitcher tenancies={tenancies} selectedId={tenancy.id} />
+          )}
+
           <Card>
             <div className="flex items-start justify-between gap-2">
               <p className="font-semibold text-foreground">{tenancy.address}</p>
@@ -133,6 +148,14 @@ export default async function Home() {
                 </div>
               )}
             </dl>
+            <LinkButton
+              href={`/tenancy/${tenancy.id}/edit`}
+              variant="ghost"
+              size="sm"
+              className="mt-3"
+            >
+              Edit details
+            </LinkButton>
           </Card>
 
           <Card className="flex flex-col gap-3">
@@ -151,8 +174,29 @@ export default async function Home() {
                 label="entry report"
               />
             ) : (
-              <LinkButton href="/capture/entry">
+              <LinkButton href={`/capture/entry${tParam}`}>
                 {entrySession ? 'Resume entry capture' : 'Start entry capture'}
+              </LinkButton>
+            )}
+          </Card>
+
+          <Card className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                <FlagIcon className="h-4 w-4 text-primary" />
+                Incidents
+              </h2>
+              {incidentCount > 0 && <Badge tone="neutral">{incidentCount}</Badge>}
+            </div>
+            <p className="text-sm text-muted">
+              Something unplanned happen? Log it separately, with photos and a timestamp.
+            </p>
+            <LinkButton href={`/incidents/new${tParam}`} variant="outline">
+              Log an incident
+            </LinkButton>
+            {incidentCount > 0 && (
+              <LinkButton href={`/incidents${tParam}`} variant="outline">
+                View {incidentCount} logged
               </LinkButton>
             )}
           </Card>
@@ -171,7 +215,7 @@ export default async function Home() {
               </LinkButton>
               {exitSession?.completed_at ? (
                 <>
-                  <LinkButton href="/compare" variant="outline">
+                  <LinkButton href={`/compare${tParam}`} variant="outline">
                     View entry vs exit comparison
                   </LinkButton>
                   <GenerateReportButton
@@ -182,7 +226,7 @@ export default async function Home() {
                   />
                 </>
               ) : (
-                <LinkButton href="/capture/exit">
+                <LinkButton href={`/capture/exit${tParam}`}>
                   {exitSession
                     ? 'Resume exit capture'
                     : isShortTerm
@@ -204,9 +248,13 @@ export default async function Home() {
                   ? "Host or platform claiming a damage cost? We'll help you dispute it."
                   : "Agent claiming a deduction? We'll help you dispute it."}
               </p>
-              <LinkButton href="/dispute">Start a dispute</LinkButton>
+              <LinkButton href={`/dispute${tParam}`}>Start a dispute</LinkButton>
             </Card>
           )}
+
+          <LinkButton href="/tenancy/new" variant="ghost" size="sm">
+            + Add another stay
+          </LinkButton>
         </div>
       ) : (
         <Card className="flex flex-col gap-3 text-center">

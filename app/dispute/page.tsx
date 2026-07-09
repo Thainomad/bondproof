@@ -10,8 +10,13 @@ import PageContainer from '@/components/ui/PageContainer'
 import Card from '@/components/ui/Card'
 import LinkButton from '@/components/ui/LinkButton'
 
-export default async function DisputePage() {
-  const tenancy = await getCurrentTenancy()
+export default async function DisputePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+  const tenancy = await getCurrentTenancy(t)
   if (!tenancy) redirect('/')
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
@@ -47,14 +52,19 @@ export default async function DisputePage() {
 
           {current.lineItems.some((i) => i.disputed) && (
             <div className="flex flex-col gap-2 border-t border-border pt-4">
-              <LinkButton href="/dispute/evidence-pack" variant="outline">
+              <LinkButton href={`/dispute/evidence-pack?t=${tenancy.id}`} variant="outline">
                 Generate evidence pack
               </LinkButton>
-              <LinkButton href="/dispute/letter" variant={isShortTerm ? 'primary' : 'outline'}>
+              <LinkButton
+                href={`/dispute/letter?t=${tenancy.id}`}
+                variant={isShortTerm ? 'primary' : 'outline'}
+              >
                 Generate response letter
               </LinkButton>
               {!isShortTerm && (
-                <LinkButton href="/dispute/ncat">Generate NCAT application</LinkButton>
+                <LinkButton href={`/dispute/ncat?t=${tenancy.id}`}>
+                  Generate NCAT application
+                </LinkButton>
               )}
             </div>
           )}

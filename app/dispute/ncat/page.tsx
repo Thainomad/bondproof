@@ -7,17 +7,22 @@ import NcatForm from './NcatForm'
 import PageContainer from '@/components/ui/PageContainer'
 import Card from '@/components/ui/Card'
 
-export default async function NcatPage() {
-  const tenancy = await getCurrentTenancy()
+export default async function NcatPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>
+}) {
+  const { t } = await searchParams
+  const tenancy = await getCurrentTenancy(t)
   if (!tenancy) redirect('/')
-  if (tenancy.stay_type === 'short_term') redirect('/dispute')
+  if (tenancy.stay_type === 'short_term') redirect(`/dispute?t=${tenancy.id}`)
 
   if (!(await hasPaidForDisputeKit(tenancy.id))) {
     return <PaywallScreen tenancyId={tenancy.id} stayType={tenancy.stay_type} />
   }
 
   const current = await getCurrentDispute(tenancy.id)
-  if (!current) redirect('/dispute')
+  if (!current) redirect(`/dispute?t=${tenancy.id}`)
 
   return (
     <PageContainer>

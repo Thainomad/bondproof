@@ -49,3 +49,12 @@ export function CameraIcon({ className = 'h-4 w-4' }: IconProps) {
     </svg>
   )
 }
+
+export function FlagIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg {...base} className={className} aria-hidden="true">
+      <path d="M5 21V4" />
+      <path d="M5 4h13l-3 4 3 4H5" />
+    </svg>
+  )
+}
