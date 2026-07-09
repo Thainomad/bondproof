@@ -8,10 +8,18 @@
     "start": "next start",
     "lint": "eslint",
     "seed:checklist": "node scripts/seed-checklist.mjs",
-    "seed:rules": "node scripts/seed-rules.mjs"
+    "seed:rules": "node scripts/seed-rules.mjs",
+    "cap:sync": "cap sync",
+    "cap:open:ios": "cap open ios",
+    "cap:open:android": "cap open android"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.110.0",
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/camera": "^8.2.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
+    "@capacitor/ios": "^8.4.1",
     "@sparticuz/chromium": "^149.0.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.110.0",
@@ -26,6 +34,7 @@
     "stripe": "^22.3.0"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

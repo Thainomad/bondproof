@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">StayProof</string>
+    <string name="title_activity_main">StayProof</string>
+    <string name="package_name">com.stayproof.app</string>
+    <string name="custom_url_scheme">com.stayproof.app</string>
+</resources>

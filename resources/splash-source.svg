@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2732 2732">
+  <rect width="2732" height="2732" fill="#f8fafc"/>
+  <g transform="translate(1166, 1166)">
+    <rect width="400" height="400" rx="88" fill="#eef2ff"/>
+    <g transform="translate(60, 55)">
+      <path
+        d="M140 20 L60 55 V150 c0 78 45 138 80 158 35 -20 80 -80 80 -158 V55 L140 20 Z"
+        fill="none"
+        stroke="#4f46e5"
+        stroke-width="16"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M105 148 l24 24 46 -50"
+        fill="none"
+        stroke="#4f46e5"
+        stroke-width="18"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </g>
+  </g>
+</svg>
